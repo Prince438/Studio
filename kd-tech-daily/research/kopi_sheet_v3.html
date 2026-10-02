@@ -1,0 +1,26 @@
+<!doctype html><html><head><base href="../">
+<style>@font-face{font-family:"Pix";src:url(node_modules/@fontsource/silkscreen/files/silkscreen-latin-400-normal.woff2)}
+body{margin:0;background:#07090c;width:1800px;height:1240px;font-family:Pix;color:#4ade80}
+h1{margin:0;padding:26px 40px 0;font-size:40px;color:#e8f0ea;letter-spacing:3px} h1 b{color:#4ade80}
+p{margin:6px 40px 0;font-size:18px;color:#6f7f78;letter-spacing:2px}
+#g{display:flex;flex-wrap:wrap;padding:10px 20px}
+.c{width:352px;height:350px;position:relative}
+.c .st{position:absolute;left:56px;top:40px;width:240px;height:288px}
+.c .k,.c .a{position:absolute;inset:0}
+.c .dk{position:absolute;left:-42px;top:156px;width:352px;height:150px;overflow:hidden}
+.c .lb{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:18px;letter-spacing:1px}
+</style></head><body>
+<h1><b>KOPI</b> // ANCHOR MOVES (V3)</h1><p>NEW: ARMS + DESK PROPS SHE PICKS UP. OUTFIT SHOWN: BATIK BLAZER</p><div id="g"></div>
+<script src="anchor.js"></script><script src="newsdesk.js"></script>
+<script>
+const S=[['papers','happy','closed','tidies her script',0,1],['read','down','closed','reads the script'],['sip','happy','closed','coffee sip'],['tablet','down','closed','swipes the tablet',0,1],['headset','normal','O','listens to the producer'],
+ ['tuck','happy','smile','hair behind the ear'],['point','normal','m2','points to the story',-1],['pen','normal','pout','pen to chin, thinking'],['write','down','closed','scribbles a note',0,1],['wave',  'happy','grin','hello / goodbye'],
+ ['thumb','wink','grin','thumbs up'],['heart','heart','grin','heart hands'],['visor','star','grin','taps the LED visor'],['fist','dollar','grin','money moves'],['rest','worried','frown','bad-news face']];
+S.forEach(([p,e,m,l,look,f],i)=>{const d=document.createElement('div');d.className='c';
+d.innerHTML=`<div class="st"><div class="k"></div><div class="dk"></div><div class="a"></div></div><div class="lb">${l}</div>`;document.getElementById('g').appendChild(d);
+const st=d.querySelector('.st'); st.querySelector('.k').innerHTML=KOPI.svg('b'+i,'batik','base'); st.querySelector('.a').innerHTML=KOPI.svg('a'+i,'batik','arms');
+st.querySelector('.dk').innerHTML=DESK.svg(-7,51.67,51,{clock:false});
+const hide={'.d-mug':p==='sip','.d-papers':['papers','read','write'].includes(p),'.d-pen':['pen','write'].includes(p),'.d-tablet':p==='tablet'};
+for(const [s,h] of Object.entries(hide)){const el=st.querySelector(s); if(el) el.setAttribute('display',h?'none':'inline');}
+[st.querySelector('.k'),st.querySelector('.a')].forEach(el=>KOPI.update(el,{t:0,pose:p,eyes:e,mouth:m,look:look||0,frame:f||0,wave:p==='wave'?1:0}));});
+</script></body></html>

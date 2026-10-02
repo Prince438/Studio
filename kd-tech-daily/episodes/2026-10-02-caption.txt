@@ -1,0 +1,9 @@
+Your Friday tech catch-up is here, and it's a spicy one 🌶️
+
+• Amazon and Cloudflare released free AI models that don't write anything, they just make quick decisions. Cloudflare's answers in about 0.04 seconds
+• Hackers sat inside a US military file system for about 9 months and took records on roughly 3 million people, Social Security numbers included
+• Chinese AI lab DeepSeek teamed up with Huawei on free tools that help AI run on Huawei's own chips instead of Nvidia's
+• California's governor rejected a ban on secretly filming people with smart glasses, saying it was written too broadly. Meta sold 7M+ pairs last year
+• Shopify's new Canvas lets shop owners design their online store just by chatting with its AI assistant. Rolling out now
+
+Learn. Build. Ship. #KDTechDaily

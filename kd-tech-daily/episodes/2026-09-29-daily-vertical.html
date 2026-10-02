@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KD Tech Daily — 29 Sep 2026</title>
+<style>
+@font-face{font-family:"JBM";font-weight:400;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JBM";font-weight:700;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"JBM";font-weight:800;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Pix";font-weight:400;src:url(node_modules/@fontsource/silkscreen/files/silkscreen-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Pix";font-weight:700;src:url(node_modules/@fontsource/silkscreen/files/silkscreen-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"SG";font-weight:500;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"SG";font-weight:700;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2) format("woff2")}
+
+:root{
+  --bg:#07090c; --panel:#0c1116; --line:#1a232b;
+  --add:#4ade80; --add-dim:#0f3a20; --del:#ff4d5e; --del-dim:#3d1117;
+  --cyan:#4de3ff; --amber:#ffc940; --ink:#e8f0ea; --muted:#6f7f78;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;background:var(--bg);overflow:hidden}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:
+  radial-gradient(120% 70% at 50% 35%, #0d151b 0%, var(--bg) 70%);
+  color:var(--ink);font-family:"JBM",monospace}
+#grid{position:absolute;inset:0;opacity:.35;background-image:
+  linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:60px 60px;background-position:-1px -1px}
+#rain{position:absolute;inset:0}
+.scene{position:absolute;inset:0;visibility:hidden}
+.inner{position:absolute;inset:0;transform-origin:50% 45%}
+
+/* top bar */
+#topbar{position:absolute;left:64px;right:64px;top:70px;height:60px;display:flex;align-items:center;justify-content:space-between;font-family:"Pix";font-size:30px;letter-spacing:1px;z-index:5}
+#topbar .logo{display:flex;align-items:center;gap:14px}
+.tb-logo{height:46px;image-rendering:pixelated;filter:drop-shadow(0 0 10px rgba(74,222,128,.35))}
+#topbar .right{display:flex;align-items:center;gap:18px;color:var(--muted);font-size:24px}
+#pips{display:flex;gap:8px}
+#pips span{width:26px;height:14px;border:2px solid var(--muted)}
+
+/* story layout */
+.hunk{position:absolute;left:64px;top:190px;font-family:"Pix";font-size:30px;color:var(--cyan);letter-spacing:1px}
+.headline{position:absolute;left:60px;right:40px;top:240px}
+.hl-line{position:relative;height:126px;overflow:hidden;display:flex;align-items:center}
+.gut{width:80px;flex:none;font-weight:800;font-size:104px;line-height:1}
+.hl-txt{position:relative;font-weight:800;font-size:104px;line-height:1;letter-spacing:-3px;white-space:nowrap;padding:6px 14px 8px 10px;margin-left:-10px}
+.hl-bg{position:absolute;inset:0;transform-origin:0 50%;transform:scaleX(0)}
+.hl-txt span{position:relative}
+.add .gut{color:var(--add)} .del .gut{color:var(--del)}
+.add .hl-bg{background:var(--add)} .del .hl-bg{background:var(--del)}
+.ill{position:absolute;left:70px;top:652px;width:940px;height:440px}
+.ill svg{width:940px;height:440px;overflow:visible}
+.sticker{position:absolute;right:40px;top:630px;font-family:"Pix";font-weight:700;font-size:30px;padding:12px 18px 10px;border:4px solid;background:var(--bg);letter-spacing:1px;z-index:3}
+.add .sticker{color:var(--add);border-color:var(--add);box-shadow:6px 6px 0 var(--add-dim)}
+.del .sticker{color:var(--del);border-color:var(--del);box-shadow:6px 6px 0 var(--del-dim)}
+.bullets{position:absolute;left:64px;right:80px;top:1112px}
+.bul{display:flex;gap:18px;font-size:36px;line-height:1.36;margin-bottom:26px;color:var(--ink)}
+.bul .mk{flex:none;font-weight:800}
+.add .bul .mk{color:var(--add)} .del .bul .mk{color:var(--del)}
+.term{position:absolute;left:64px;width:624px;top:1368px;height:236px;background:var(--panel);border:3px solid #2b3842;border-radius:6px;box-shadow:10px 10px 0 #0b3a1f;overflow:hidden}
+.del .term{box-shadow:10px 10px 0 #3a0f16}
+.term .bar{height:46px;border-bottom:3px solid #2b3842;display:flex;align-items:center;gap:10px;padding:0 18px;font-size:22px;color:var(--muted)}
+.term .bar i{width:14px;height:14px;border-radius:50%;display:inline-block}
+.term .body{padding:18px 22px;font-size:28px;line-height:1.55}
+.tl{white-space:pre;min-height:1.5em}
+.tl .p{font-weight:700}
+.tl.cmd .p{color:var(--add)} .tl.out .p{color:var(--cyan)} .tl.out{color:var(--cyan)}
+.del .tl.out,.del .tl.out .p{color:var(--del)}
+.tl.cmt{color:var(--muted)}
+.cur{display:inline-block;width:.6em;height:1.05em;background:var(--add);vertical-align:-0.18em;margin-left:2px}
+
+/* svg doodles */
+.st{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.lbl{font-family:"JBM";font-weight:700;font-size:24px;fill:var(--ink)}
+.pix{font-family:"Pix";font-size:28px;fill:var(--ink)}
+
+/* intro / outro */
+.row{position:absolute;left:0;right:0;display:flex;justify-content:center}
+#intro .prompt{position:absolute;left:96px;top:196px;font-size:38px;color:var(--muted)}
+#intro .prompt .p{color:var(--add);font-weight:700}
+#intro .logoBig{top:262px}
+#intro .logoBig img{width:432px;image-rendering:pixelated;filter:drop-shadow(0 0 18px rgba(74,222,128,.35))}
+#intro .word{top:618px;font-family:"Pix";font-weight:700;font-size:92px;letter-spacing:4px;color:var(--ink)}
+#intro .chipRow{top:748px}
+#intro .chip{font-family:"JBM";font-weight:700;font-size:32px;padding:10px 20px;border:3px solid var(--add);color:var(--add);background:rgba(7,9,12,.8)}
+#intro .date{top:1586px;font-family:"Pix";font-size:28px;color:var(--muted);letter-spacing:2px}
+.anchorClip{position:absolute;left:0;right:0;overflow:hidden}
+.anchorWrap{position:absolute;left:340px;top:40px;width:400px;height:480px}
+.anchorWrap svg{width:400px;height:480px}
+#intro .anchorClip{top:800px;height:510px}
+#outro .anchorClip{top:690px;height:510px}
+.desk{position:absolute;left:130px;width:820px;height:236px}
+#intro .desk{top:1300px} #outro .desk{top:1190px}
+.desk .dtop{position:absolute;left:0;right:0;top:0;height:30px;background:#46515a;border-top:6px solid #7b868e;box-shadow:0 6px 0 #1a1f23}
+.desk .dfront{position:absolute;top:36px;left:24px;right:24px;bottom:0;background:linear-gradient(#0f1c14,#060c08);border:6px solid #1a1f23;border-top:none;display:flex;align-items:center;justify-content:center;gap:30px}
+.desk .dfront::after{content:"";position:absolute;left:0;right:0;bottom:18px;height:4px;background:var(--add);box-shadow:0 0 14px var(--add);opacity:.8}
+.desk .dfront img{height:104px;image-rendering:pixelated}
+.desk .dtxt b{display:block;font-family:"Pix";font-weight:700;font-size:54px;color:var(--add);letter-spacing:2px;line-height:1}
+.desk .dtxt span{display:block;margin-top:10px;font-family:"JBM";font-weight:700;font-size:20px;color:var(--muted);letter-spacing:5px}
+.desk .mug{position:absolute;left:640px;top:-66px;width:72px;height:72px}
+.desk .mug svg{width:72px;height:72px}
+
+#outro .small{position:absolute;left:96px;top:222px;font-family:"SG";font-weight:500;font-size:62px;color:var(--ink)}
+#outro .huge{position:absolute;left:84px;top:282px;font-size:220px;font-weight:800;letter-spacing:-8px;line-height:1;color:var(--add);text-shadow:0 0 40px rgba(74,222,128,.35)}
+#outro .stat{position:absolute;left:96px;top:528px;font-size:28px;color:var(--muted);white-space:pre}
+#outro .stat .a{color:var(--add)} #outro .stat .d{color:var(--del)}
+#outro .bye{position:absolute;left:96px;top:600px;font-family:"SG";font-weight:700;font-size:56px}
+#outro .cmd{position:absolute;left:96px;top:1470px;font-size:40px;white-space:pre}
+#outro .cmd .p{color:var(--add);font-weight:700}
+#outro .src{position:absolute;left:96px;right:96px;top:1556px;font-size:22px;line-height:1.5;color:var(--muted)}
+
+/* live cam (stories) */
+#cam{position:absolute;left:716px;top:1368px;width:300px;height:236px;z-index:6;visibility:hidden;overflow:hidden;
+  background:radial-gradient(90% 80% at 50% 30%,#10261a,#050a07);border:3px solid #2b3842;border-radius:6px;box-shadow:10px 10px 0 #0b3a1f}
+#cam .cgrid{position:absolute;inset:0;opacity:.5;background-image:linear-gradient(#123021 1px,transparent 1px),linear-gradient(90deg,#123021 1px,transparent 1px);background-size:24px 24px}
+#cam .wm{position:absolute;right:12px;top:12px;height:30px;opacity:.35;image-rendering:pixelated}
+#cam .kopiCam{position:absolute;left:30px;top:10px;width:240px;height:288px}
+#cam .kopiCam svg{width:240px;height:288px}
+#cam .cdesk{position:absolute;left:0;right:0;bottom:0;height:50px;background:#101417;border-top:4px solid #46515a;display:flex;align-items:center;gap:12px;padding:0 14px}
+#cam .cdesk b{font-family:"Pix";font-weight:700;font-size:24px;color:var(--add)}
+#cam .cdesk span{font-family:"JBM";font-weight:700;font-size:15px;color:var(--muted);letter-spacing:3px}
+#cam .live{position:absolute;left:10px;top:10px;font-family:"Pix";font-size:18px;color:#fff;background:#d7263d;padding:3px 8px 1px;display:flex;align-items:center;gap:6px}
+#cam .live i{width:8px;height:8px;background:#fff;display:inline-block}
+
+/* ticker */
+#ticker{position:absolute;left:0;right:0;top:1792px;height:56px;border-top:3px solid var(--line);border-bottom:3px solid var(--line);overflow:hidden;background:#05070a;z-index:5}
+#tickTxt{position:absolute;top:10px;left:0;white-space:nowrap;font-family:"Pix";font-size:26px;color:#3c5a48;letter-spacing:1px}
+
+/* fx */
+#wipe{position:absolute;inset:0;z-index:20;pointer-events:none}
+#wipe div{position:absolute;left:0;width:100%;height:161px;transform:scaleX(0)}
+#scan{position:absolute;inset:0;z-index:30;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 2px,transparent 2px 4px);mix-blend-mode:multiply}
+#vig{position:absolute;inset:0;z-index:31;pointer-events:none;background:radial-gradient(110% 80% at 50% 45%,transparent 55%,rgba(0,0,0,.65) 100%)}
+#grain{position:absolute;inset:0;z-index:32;pointer-events:none;opacity:.07;background-size:240px 240px}
+#black{position:absolute;inset:0;background:#000;z-index:40;opacity:0}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="grid"></div>
+  <canvas id="rain" width="1080" height="1920"></canvas>
+
+  <div id="topbar">
+    <div class="logo"><img class="tb-logo" src="brand/kd_logo.png"><span>TECH DAILY</span></div>
+    <div class="right"><span>29.09.26</span><div id="pips"></div></div>
+  </div>
+
+  <section class="scene" id="intro"><div class="inner">
+    <div class="prompt"><span class="p">$ </span><span class="t"></span></div>
+    <div class="row logoBig"><img src="brand/kd_logo.png"></div>
+    <div class="row word">TECH DAILY</div>
+    <div class="row chipRow"><div class="chip">5 stories. zero fluff.</div></div>
+    <div class="anchorClip"><div class="anchorWrap"><div class="kopi"></div></div></div>
+    <div class="desk"><div class="dtop"></div><div class="dfront"><img src="brand/kd_logo.png"><div class="dtxt"><b>TECH DAILY</b><span>KOPI // ANCHOR BOT</span></div></div><div class="mug"></div></div>
+    <div class="row date">TUE 29 SEP 2026 // LEARN. BUILD. SHIP.</div>
+  </div></section>
+
+  <div id="stories"></div>
+
+  <section class="scene" id="outro"><div class="inner">
+    <div class="small">that's the</div>
+    <div class="huge">diff.</div>
+    <div class="stat"></div>
+    <div class="bye">see you tomorrow, builders.</div>
+    <div class="anchorClip"><div class="anchorWrap"><div class="kopi"></div></div></div>
+    <div class="desk"><div class="dtop"></div><div class="dfront"><img src="brand/kd_logo.png"><div class="dtxt"><b>TECH DAILY</b><span>KOPI // ANCHOR BOT</span></div></div><div class="mug"></div></div>
+    <div class="cmd"><span class="p">$ </span><span class="t"></span></div>
+    <div class="src">src: AP / CNBC / TechCrunch / Al Jazeera / Benzinga / NVIDIA Newsroom / SiliconANGLE</div>
+  </div></section>
+
+  <div id="cam"><div class="cgrid"></div><img class="wm" src="brand/kd_logo.png"><div class="kopiCam"></div>
+    <div class="cdesk"><b>KOPI</b><span>ANCHOR BOT</span></div><div class="live"><i></i>LIVE</div></div>
+  <div id="ticker"><div id="tickTxt"></div></div>
+  <div id="wipe"></div>
+  <div id="scan"></div><div id="vig"></div><div id="grain"></div><div id="black"></div>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="anchor.js"></script>
+<script src="lipsync.js"></script>
+<script>
+/* ================= DATA ================= */
+const FPS = 30, DURATION = 62;
+const STORIES = [
+  { sign:'+', tag:'SPACE', lines:['STARSHIP','FINALLY HIT','ORBIT'],
+    bullets:['flight 14 reached orbit, deployed 26 Starlink sats & looped Earth ~2x',
+             'ended early: ~3 hrs of a planned 10, then tipped over in flames at splashdown'],
+    term:['starship launch --orbit','orbit reached. 26 sats deployed','landing: still spicy'],
+    sticker:'ORBIT REACHED' },
+  { sign:'-', tag:'AI SAFETY', lines:['OPENAI','BENCHED','GPT-6.1 ASTRA'],
+    bullets:['planned for an October drop in ChatGPT + Codex. now cancelled',
+             'tests: it pushed past task permissions & didn\'t fully report its actions'],
+    term:['openai release gpt-6.1-astra','ERROR: model exceeded scope','AI wouldn\'t stay in its lane'],
+    sticker:'RELEASE CANCELLED' },
+  { sign:'+', tag:'COMMERCE', lines:['AI AGENTS CAN','NOW CHECK OUT','ON SHOPIFY'],
+    bullets:['3 new WebMCP tools let browser agents read, edit + complete checkout',
+             'the buyer still approves. Amazon & Adidas are blocking agents'],
+    term:['agent buy hoodie --size L','awaiting human approval...','your cart has opinions now'],
+    sticker:'AGENTS WELCOME' },
+  { sign:'+', tag:'CHIPS', lines:['NVIDIA','ADDED A','$150B BUYBACK'],
+    bullets:['largest share buyback increase in history, per NVIDIA',
+             '$235B now left to spend, through fiscal 2028'],
+    term:['nvda buyback --add 150B','remaining: $235B thru FY2028','money printer go brrr'],
+    sticker:'BIGGEST EVER' },
+  { sign:'-', tag:'BIG TECH', lines:['META','POACHED','MONGODB\'S CEO'],
+    bullets:['CJ Desai leaves after 11 months to run Meta\'s new enterprise AI unit',
+             'MongoDB stock fell 18%+. ex-CEO Dev Ittycheria returns as interim'],
+    term:['git checkout meta','switched from branch \'mongodb\'','MDB: -18% on the news'],
+    sticker:'CEO TRANSFER' },
+];
+const T_INTRO = [0,6], T_OUTRO = [56,62];
+const storyStart = i => 6 + i*10;
+
+/* ================= SVG DOODLES ================= */
+const D = 'pathLength="1" class="st draw"';
+const ILL = [
+// 01 Starship orbit
+`<svg viewBox="0 0 940 440">
+  <g id="earth">
+    <circle cx="260" cy="230" r="140" fill="#0e2433" class="fillin" opacity="0"/>
+    <path class="fillin" opacity="0" fill="#1c5a36" d="M170 150 q40 -40 90 -20 q30 20 10 50 q-30 30 -70 20 q-40 -10 -30 -50z M290 250 q50 -20 80 20 q10 50 -40 70 q-50 10 -60 -30 q-5 -40 20 -60z M180 280 q30 0 30 30 q-10 30 -40 20 q-20 -30 10 -50z"/>
+    <circle cx="260" cy="230" r="140" ${D} style="stroke:var(--cyan)"/>
+  </g>
+  <ellipse id="orbitE" cx="260" cy="230" rx="245" ry="80" transform="rotate(-14 260 230)" fill="none" stroke="#6f7f78" stroke-width="4" stroke-dasharray="14 12" opacity="0"/>
+  <g id="rocketWrap"><g id="rocket"><g transform="rotate(90)">
+    <rect x="-11" y="-34" width="22" height="58" rx="3" fill="#cfd8dc" stroke="#e8f0ea" stroke-width="3"/>
+    <path d="M-11 -34 Q0 -60 11 -34z" fill="#cfd8dc" stroke="#e8f0ea" stroke-width="3"/>
+    <path d="M-11 14 l-10 14 h10z M11 14 l10 14 h-10z" fill="#9aa7ad"/>
+    <path id="flame" d="M-7 26 Q0 58 7 26z" fill="#ffc940"/>
+  </g></g></g>
+  <g id="sats" transform="translate(592 78)"></g>
+  <text x="600" y="362" class="pix" style="font-size:56px;fill:var(--add)" id="satN">x0</text>
+  <text x="604" y="404" class="lbl" style="fill:var(--muted)">STARLINK SATS</text>
+</svg>`,
+// 02 Astra out of scope
+`<svg viewBox="0 0 940 440">
+  <rect x="70" y="40" width="430" height="370" fill="none" stroke="#6f7f78" stroke-width="4" stroke-dasharray="16 12" class="fillin" opacity="0"/>
+  <text x="86" y="78" class="lbl fillin" opacity="0" style="fill:var(--muted)">task_scope/</text>
+  <g id="bot">
+    <line x1="285" y1="110" x2="285" y2="80" ${D}/>
+    <circle cx="285" cy="72" r="9" fill="var(--del)" class="pop"/>
+    <rect x="215" y="110" width="140" height="100" rx="14" ${D}/>
+    <rect id="eyeL" x="245" y="145" width="20" height="26" fill="var(--cyan)" class="pop"/>
+    <rect id="eyeR" x="305" y="145" width="20" height="26" fill="var(--cyan)" class="pop"/>
+    <rect x="200" y="225" width="170" height="150" rx="12" ${D}/>
+    <text x="244" y="315" class="pix fillin" opacity="0" style="font-size:40px">6.1</text>
+  </g>
+  <g id="arm">
+    <path d="M370 270 H640" ${D}/>
+    <circle cx="652" cy="270" r="16" ${D}/>
+  </g>
+  <g id="warn" opacity="0">
+    <path d="M520 150 l40 70 h-80z" fill="var(--del)"/>
+    <text x="511" y="210" class="pix" style="font-size:40px;fill:#07090c">!</text>
+  </g>
+  <g transform="translate(700 225)" class="pop" id="file">
+    <path d="M0 0 h70 l24 24 v70 h-94z" fill="#1d262d" stroke="var(--amber)" stroke-width="4"/>
+    <text x="10" y="64" class="lbl" style="fill:var(--amber);font-size:20px">prod</text>
+  </g>
+  <text x="690" y="370" class="lbl fillin" opacity="0" style="fill:var(--del)">out of scope</text>
+</svg>`,
+// 03 Shopify agent checkout
+`<svg viewBox="0 0 940 440">
+  <rect x="40" y="30" width="540" height="380" rx="10" fill="#0c1116" class="fillin" opacity="0"/>
+  <rect x="40" y="30" width="540" height="380" rx="10" ${D} style="stroke:#9fb0a8"/>
+  <path d="M40 80 H580" ${D} style="stroke:#9fb0a8"/>
+  <circle cx="70" cy="55" r="7" fill="var(--del)" class="pop"/><circle cx="94" cy="55" r="7" fill="var(--amber)" class="pop"/><circle cx="118" cy="55" r="7" fill="var(--add)" class="pop"/>
+  <text x="70" y="130" class="pix fillin" opacity="0" style="font-size:30px">CHECKOUT</text>
+  <g class="fillin" opacity="0">
+    <rect x="70" y="160" width="70" height="70" rx="8" fill="#1d262d" stroke="#9fb0a8" stroke-width="3"/>
+    <path d="M85 180 l12 -8 h16 l12 8 l-6 10 l-6 -3 v28 h-20 v-28 l-6 3z" fill="var(--cyan)"/>
+    <text x="160" y="190" class="lbl">hoodie</text>
+    <text x="160" y="222" class="lbl" style="fill:var(--muted)">size L  x1</text>
+    <path d="M70 262 H550" stroke="#26323b" stroke-width="3"/>
+  </g>
+  <g id="btn">
+    <rect x="70" y="300" width="480" height="76" rx="8" fill="var(--add)"/>
+    <text x="104" y="348" class="lbl" style="fill:#07090c;font-size:28px">COMPLETE CHECKOUT</text>
+  </g>
+  <g id="appr" opacity="0">
+    <rect x="150" y="150" width="330" height="96" rx="8" fill="#07090c" stroke="var(--amber)" stroke-width="4"/>
+    <text x="170" y="190" class="lbl" style="fill:var(--amber);font-size:22px">buyer approval</text>
+    <rect x="170" y="206" width="26" height="26" fill="none" stroke="var(--ink)" stroke-width="3"/>
+    <path id="tick" d="M174 218 l8 9 l16 -20" fill="none" stroke="var(--add)" stroke-width="5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+    <text x="210" y="228" class="lbl" style="font-size:22px">approved</text>
+  </g>
+  <g id="cursor">
+    <path d="M0 0 L0 44 L12 33 L21 52 L29 48 L20 30 L36 30z" fill="#e8f0ea" stroke="#07090c" stroke-width="3"/>
+    <rect x="26" y="-30" width="44" height="34" rx="6" fill="var(--cyan)"/>
+    <rect x="35" y="-21" width="8" height="10" fill="#07090c"/><rect x="53" y="-21" width="8" height="10" fill="#07090c"/>
+  </g>
+  <g transform="translate(620 60)">
+    <g class="tool"><rect width="300" height="64" rx="8" fill="#0c1116" stroke="var(--cyan)" stroke-width="3"/><text x="20" y="41" class="lbl" style="fill:var(--cyan)">get_checkout</text></g>
+    <g class="tool" transform="translate(0 110)"><rect width="300" height="64" rx="8" fill="#0c1116" stroke="var(--cyan)" stroke-width="3"/><text x="20" y="41" class="lbl" style="fill:var(--cyan)">update_checkout</text></g>
+    <g class="tool" transform="translate(0 220)"><rect width="300" height="64" rx="8" fill="#0c1116" stroke="var(--add)" stroke-width="3"/><text x="20" y="41" class="lbl" style="fill:var(--add)">complete_checkout</text></g>
+  </g>
+</svg>`,
+// 04 NVIDIA buyback bars
+`<svg viewBox="0 0 940 440">
+  <path d="M60 400 H560" ${D}/>
+  <rect id="barA" x="110" y="292" width="150" height="108" fill="#26323b" stroke="#9fb0a8" stroke-width="4"/>
+  <g id="barB">
+    <rect x="330" y="292" width="150" height="108" fill="#26323b" stroke="#9fb0a8" stroke-width="4"/>
+    <rect id="barAdd" x="330" y="100" width="150" height="192" fill="var(--add)" stroke="var(--add)" stroke-width="4"/>
+  </g>
+  <text x="120" y="275" class="pix fillin" opacity="0" style="font-size:34px">$85B</text>
+  <text x="330" y="80" class="pix" id="bNum" style="font-size:40px;fill:var(--add)">$85B</text>
+  <text x="358" y="210" class="lbl" id="plus" opacity="0" style="fill:#07090c;font-size:30px">+150B</text>
+  <text x="120" y="436" class="lbl fillin" opacity="0" style="fill:var(--muted)">before</text>
+  <text x="352" y="436" class="lbl fillin" opacity="0" style="fill:var(--muted)">now</text>
+  <g transform="translate(640 150)" id="chip">
+    <g stroke="#9fb0a8" stroke-width="5" class="fillin" opacity="0">
+      <path d="M30 0 v-24 M70 0 v-24 M110 0 v-24 M150 0 v-24 M30 180 v24 M70 180 v24 M110 180 v24 M150 180 v24 M0 30 h-24 M0 70 h-24 M0 110 h-24 M0 150 h-24 M180 30 h24 M180 70 h24 M180 110 h24 M180 150 h24"/>
+    </g>
+    <rect width="180" height="180" rx="12" ${D} style="stroke:var(--add);fill:#0f1a14"/>
+    <rect x="40" y="40" width="100" height="100" rx="6" fill="none" stroke="var(--add)" stroke-width="4" class="fillin" opacity="0"/>
+    <text x="52" y="102" class="pix fillin" opacity="0" style="font-size:34px;fill:var(--add)">GPU</text>
+  </g>
+  <g id="coins"></g>
+</svg>`,
+// 05 CEO transfer + stock chart
+`<svg viewBox="0 0 940 440">
+  <rect x="40" y="40" width="250" height="180" rx="10" ${D} style="stroke:#9fb0a8"/>
+  <text x="66" y="92" class="pix fillin" opacity="0" style="font-size:30px">MONGODB</text>
+  <rect x="560" y="40" width="250" height="180" rx="10" ${D} style="stroke:var(--cyan)"/>
+  <text x="630" y="92" class="pix fillin" opacity="0" style="font-size:36px;fill:var(--cyan)">META</text>
+  <path id="arc" d="M165 40 Q425 -90 685 40" fill="none" stroke="#6f7f78" stroke-width="4" stroke-dasharray="12 10" class="fillin" opacity="0"/>
+  <g id="ceo">
+    <circle cx="0" cy="-18" r="18" fill="var(--amber)"/>
+    <path d="M-28 26 q28 -36 56 0z" fill="var(--amber)"/>
+    <text x="-22" y="58" class="lbl" style="font-size:20px">CJ</text>
+  </g>
+  <text x="46" y="262" class="lbl fillin" opacity="0" style="fill:var(--muted)">MDB</text>
+  <path id="chart" d="M40 300 L120 290 L190 306 L260 284 L330 296 L400 280 L470 292 L520 286 L560 420" pathLength="1" fill="none" stroke="var(--del)" stroke-width="6" stroke-linejoin="round" stroke-dasharray="1" stroke-dashoffset="1"/>
+  <text x="600" y="400" class="pix" id="drop" opacity="0" style="font-size:72px;fill:var(--del)">-18%</text>
+</svg>`
+];
+
+/* ================= BUILD DOM ================= */
+const host = document.getElementById('stories');
+STORIES.forEach((s,i)=>{
+  const cls = s.sign==='+'?'add':'del';
+  const sec = document.createElement('section');
+  sec.className = 'scene story '+cls; sec.id = 's'+(i+1);
+  sec.innerHTML = `<div class="inner">
+    <div class="hunk"><span class="t"></span></div>
+    <div class="headline">${s.lines.map((l,k)=>`<div class="hl-line"><span class="gut">${s.sign==='+'?'+':'-'}</span><span class="hl-txt">${k===s.lines.length-1?'<i class="hl-bg"></i>':''}<span>${l}</span></span></div>`).join('')}</div>
+    <div class="ill">${ILL[i]}</div>
+    <div class="sticker">${s.sticker}</div>
+    <div class="bullets">${s.bullets.map(()=>`<div class="bul"><span class="mk">${s.sign==='+'?'+':'-'}</span><span class="t"></span></div>`).join('')}</div>
+    <div class="term"><div class="bar"><i style="background:#ff4d5e"></i><i style="background:#ffc940"></i><i style="background:#2ee66b"></i><span style="margin-left:12px">kd@tech-daily: ~</span></div>
+      <div class="body">
+        <div class="tl cmd"><span class="p">$ </span><span class="t"></span></div>
+        <div class="tl out"><span class="p"></span><span class="t"></span></div>
+        <div class="tl cmt"><span class="p"></span><span class="t"></span></div>
+      </div></div>
+  </div>`;
+  host.appendChild(sec);
+});
+// pips
+const pips = document.getElementById('pips');
+for(let i=0;i<5;i++){ pips.appendChild(document.createElement('span')); }
+// wipe strips
+const wipe = document.getElementById('wipe');
+for(let i=0;i<12;i++){ const d=document.createElement('div'); d.style.top=(i*160)+'px'; wipe.appendChild(d); }
+// ticker
+const tickUnit = '+++ KD TECH DAILY +++ TODAY IN TECH, TL;DR +++ 29.09.2026 +++ 5 STORIES, ZERO FLUFF +++ LEARN. BUILD. SHIP. ';
+document.getElementById('tickTxt').textContent = tickUnit.repeat(8);
+// starlink grid
+(function(){
+  const g = document.querySelector('#s1 #sats'); let h='';
+  for(let k=0;k<26;k++){ const c=k%6, r=Math.floor(k/6);
+    h+=`<g transform="translate(${c*60} ${r*48}) rotate(-28 20 15)"><g class="sat"><rect x="-6" y="8" width="14" height="14" fill="var(--cyan)"/><rect x="12" y="6" width="16" height="18" rx="2" fill="#cfd8dc"/><rect x="32" y="8" width="14" height="14" fill="var(--cyan)"/><path d="M20 6 v-7" stroke="#cfd8dc" stroke-width="3"/></g></g>`; }
+  g.innerHTML = h;
+})();
+// coins
+(function(){
+  const g = document.querySelector('#s4 #coins'); let h='';
+  for(let k=0;k<5;k++) h+=`<g class="coin"><circle r="22" fill="var(--amber)" stroke="#07090c" stroke-width="3"/><text x="-9" y="10" class="pix" style="font-size:28px;fill:#07090c">$</text></g>`;
+  g.innerHTML = h;
+})();
+
+/* ================= TIMELINE ================= */
+const EVENTS = [];               // audio cue sheet, read by the renderer
+const ev = (t,type,extra={}) => EVENTS.push(Object.assign({t:+t.toFixed(3),type},extra));
+const TYPES = [];                // typewriter registry, resolved per-frame
+function typeAt(el, text, t0, cps, opts={}){
+  const t1 = t0 + text.length/cps;
+  TYPES.push({el, text, t0, t1, cps, cursorUntil: opts.cursorUntil ?? t1+0.25, cursor: opts.cursor!==false});
+  if(opts.keys) for(let k=0;k<text.length;k++) if(text[k]!==' ') ev(t0+k/cps,'key');
+  return t1;
+}
+const $ = (sel,root=document)=>root.querySelector(sel);
+const $$ = (sel,root=document)=>[...root.querySelectorAll(sel)];
+
+const tl = gsap.timeline({paused:true, defaults:{ease:'power3.out'}});
+
+function sceneWindow(el, a, b){
+  tl.set(el,{visibility:'visible'},a); tl.set(el,{visibility:'hidden'},b);
+  tl.fromTo($('.inner',el),{scale:1},{scale:1.03,ease:'none',duration:b-a},a);
+}
+function wipeAt(b, color){
+  const strips = $$('#wipe div');
+  tl.set(strips,{background:color, transformOrigin:'0% 50%'}, b-0.36);
+  tl.fromTo(strips,{scaleX:0},{scaleX:1,duration:0.22,ease:'power2.in',stagger:0.012}, b-0.36);
+  tl.set(strips,{transformOrigin:'100% 50%'}, b);
+  tl.to(strips,{scaleX:0,duration:0.26,ease:'power2.out',stagger:0.012}, b+0.01);
+  ev(b-0.36,'whoosh');
+}
+
+/* ---- intro ---- */
+(function(){
+  const r = $('#intro'); const [a,b] = T_INTRO;
+  sceneWindow(r,a,b+0.01);
+  typeAt($('.prompt .t',r),'./kd-tech-daily --today',0.1,34,{keys:true,cursorUntil:1.0});
+  ev(0.55,'riser');
+  tl.fromTo($('.logoBig',r),{autoAlpha:0,scale:1.35},{autoAlpha:1,scale:1,duration:0.35,ease:'back.out(2.2)'},0.95); ev(1.0,'hit');
+  tl.from($('.word',r),{autoAlpha:0,y:30,duration:0.3},1.25); ev(1.25,'swish');
+  tl.from($('.desk',r),{y:340,autoAlpha:0,duration:0.4},1.2);
+  tl.fromTo($('.anchorWrap',r),{y:520},{y:0,duration:0.5,ease:'back.out(1.5)'},1.4); ev(1.45,'pop');
+  tl.from($('.chip',r),{autoAlpha:0,scale:0.8,duration:0.35,ease:'back.out(2)'},2.3); ev(2.3,'blip');
+  tl.from($('.date',r),{autoAlpha:0,duration:0.3},2.6);
+  tl.from('#topbar',{autoAlpha:0,duration:0.05},5.95);
+  wipeAt(6,'#4ade80');
+})();
+
+/* ---- stories ---- */
+STORIES.forEach((s,i)=>{
+  const r = $('#s'+(i+1)); const t0 = storyStart(i), t1 = t0+10;
+  const isAdd = s.sign==='+';
+  sceneWindow(r,t0-0.01,t1+0.01);
+  // pips
+  const pip = $$('#pips span')[i];
+  tl.set(pip,{background: isAdd?'#4ade80':'#ff4d5e', borderColor: isAdd?'#4ade80':'#ff4d5e'}, t0);
+  // hunk header
+  typeAt($('.hunk .t',r),`@@ 0${i+1}/05 // ${s.tag} @@`,t0+0.12,40,{cursor:false});
+  // headline
+  const lines = $$('.hl-line',r);
+  lines.forEach((ln,k)=>{
+    tl.from($('.gut',ln),{autoAlpha:0,duration:0.15},t0+0.25+k*0.12);
+    tl.from($('.hl-txt > span',ln),{yPercent:115,duration:0.55,ease:'power4.out'},t0+0.25+k*0.12);
+  });
+  ev(t0+0.25,'swish');
+  tl.to($('.hl-bg',r),{scaleX:1,duration:0.35,ease:'power3.inOut'},t0+1.0);
+  tl.to($('.hl-line:last-child .hl-txt > span',r),{color:'#07090c',duration:0.12},t0+1.15);
+  ev(t0+1.0,'hl');
+  // illustration draw-on
+  const draws = $$('.draw',r), fills = $$('.fillin',r), pops = $$('.pop',r);
+  tl.fromTo(draws,{strokeDashoffset:1,strokeDasharray:1},{strokeDashoffset:0,duration:0.8,stagger:0.07,ease:'power2.inOut'},t0+1.25);
+  tl.to(fills,{opacity:1,duration:0.4,stagger:0.05},t0+1.55);
+  if(pops.length) tl.from(pops,{scale:0,transformOrigin:'50% 50%',duration:0.35,stagger:0.05,ease:'back.out(3)'},t0+1.7);
+  // bullets
+  $$('.bul',r).forEach((b,k)=>{
+    const bt = t0+2.3+k*0.95;
+    tl.from(b,{autoAlpha:0,x:-24,duration:0.3},bt);
+    typeAt($('.t',b),s.bullets[k],bt+0.05,85,{cursor:false});
+    ev(bt,'blip',{pitch:k});
+  });
+  // sticker slam
+  const st = $('.sticker',r);
+  tl.fromTo(st,{autoAlpha:0,scale:2.4,rotation:-24},{autoAlpha:1,scale:1,rotation:isAdd?-6:6,duration:0.3,ease:'power4.in'},t0+3.55);
+  tl.to($('.ill',r),{keyframes:[{x:-12,y:6,duration:0.04},{x:9,y:-4,duration:0.04},{x:-4,y:2,duration:0.04},{x:0,y:0,duration:0.06}]},t0+3.85);
+  ev(t0+3.85,'stamp');
+  // terminal
+  const term = $('.term',r), tls = $$('.tl',r);
+  tl.from(term,{autoAlpha:0,y:40,scale:0.96,duration:0.4,ease:'back.out(1.7)'},t0+4.4); ev(t0+4.4,'pop');
+  const c1 = typeAt($('.t',tls[0]),s.term[0],t0+4.75,26,{keys:true});
+  $('.p',tls[1]).textContent = '> '; $('.p',tls[2]).textContent = '# ';
+  tl.from($('.p',tls[1]),{autoAlpha:0,duration:0.05},c1+0.3);
+  const c2 = typeAt($('.t',tls[1]),s.term[1],c1+0.3,70,{cursor:false});
+  ev(c1+0.3, isAdd?'ok':'err');
+  tl.from($('.p',tls[2]),{autoAlpha:0,duration:0.05},c2+0.5);
+  typeAt($('.t',tls[2]),s.term[2],c2+0.45,24,{keys:true,cursorUntil:t1});
+  // custom per-story motion
+  [CUSTOM_S1,CUSTOM_S2,CUSTOM_S3,CUSTOM_S4,CUSTOM_S5][i](r,t0);
+  wipeAt(t1, i<4 ? (STORIES[i+1].sign==='+'?'#4ade80':'#ff4d5e') : '#4ade80');
+});
+
+tl.set('#cam',{visibility:'visible'},T_INTRO[1]); tl.set('#cam',{visibility:'hidden'},T_OUTRO[0]);
+tl.fromTo('#cam',{scale:0.85},{scale:1,duration:0.35,ease:'back.out(2)'},T_INTRO[1]+0.02);
+
+/* ---- outro ---- */
+(function(){
+  const r = $('#outro'); const [a,b] = T_OUTRO;
+  sceneWindow(r,a-0.01,b);
+  tl.set($$('#pips span'),{background:'#4ade80',borderColor:'#4ade80'},a);
+  tl.from($('.small',r),{autoAlpha:0,y:30,duration:0.4},a+0.25);
+  tl.from($('.huge',r),{autoAlpha:0,scale:0.6,transformOrigin:'0% 60%',duration:0.5,ease:'back.out(1.8)'},a+0.45); ev(a+0.45,'hit');
+  const st = $('.stat',r);
+  st.innerHTML = '<span class="t0"></span><span class="a"></span><span class="t1"></span><span class="d"></span>';
+  typeAt($('.t0',st),'5 stories changed, ',a+1.0,70,{cursor:false});
+  typeAt($('.a',st),'3 insertions(+)',a+1.0+19/70,70,{cursor:false});
+  typeAt($('.t1',st),', ',a+1.0+34/70,70,{cursor:false});
+  typeAt($('.d',st),'2 deletions(-)',a+1.0+36/70,70,{cursor:false});
+  tl.from($('.desk',r),{y:340,autoAlpha:0,duration:0.4},a+0.2);
+  tl.fromTo($('.anchorWrap',r),{y:520},{y:0,duration:0.5,ease:'back.out(1.5)'},a+0.35); ev(a+0.4,'pop');
+  tl.from($('.bye',r),{autoAlpha:0,y:30,duration:0.4},a+1.9);
+  tl.from($('.cmd',r),{autoAlpha:0,duration:0.1},a+3.2);
+  typeAt($('.cmd .t',r),'git pull --daily',a+3.25,18,{keys:true,cursorUntil:b});
+  tl.from($('.src',r),{autoAlpha:0,duration:0.5},a+3.8);
+  tl.to('#black',{opacity:1,duration:0.7,ease:'power1.in'},b-0.7);
+})();
+
+/* ================= PER-STORY CUSTOM ================= */
+function CUSTOM_S1(r,t0){
+  tl.to($('#orbitE',r),{opacity:1,duration:0.4},t0+1.7);
+  tl.from($('#rocketWrap',r),{autoAlpha:0,duration:0.3},t0+1.9);
+  $$('.sat',r).forEach((s,k)=>{ tl.from(s,{scale:0,transformOrigin:'50% 50%',duration:0.2,ease:'back.out(3)'},t0+2.2+k*0.055); });
+  ev(t0+2.2,'count');
+}
+function CUSTOM_S2(r,t0){
+  tl.from($('#arm',r),{scaleX:0.08,transformOrigin:'0% 50%',duration:0.7,ease:'power2.inOut'},t0+2.4);
+  tl.to($('#warn',r),{opacity:1,duration:0.05,repeat:5,yoyo:true},t0+3.1);
+  tl.set($('#warn',r),{opacity:1},t0+3.45);
+}
+function CUSTOM_S3(r,t0){
+  $$('.tool',r).forEach((g,k)=>tl.from(g,{autoAlpha:0,x:40,duration:0.35,ease:'back.out(2)'},t0+2.0+k*0.3));
+  tl.from($('#btn',r),{autoAlpha:0,y:24,duration:0.3,ease:'back.out(2)'},t0+1.7);
+  tl.fromTo($('#cursor',r),{x:900,y:420,autoAlpha:0},{x:430,y:338,autoAlpha:1,duration:1.1,ease:'power2.inOut'},t0+2.6);
+  tl.to($('#btn',r),{scale:0.94,transformOrigin:'50% 50%',duration:0.08,yoyo:true,repeat:1},t0+3.75); ev(t0+3.75,'click');
+  tl.fromTo($('#appr',r),{opacity:0,scale:0.8,transformOrigin:'50% 50%'},{opacity:1,scale:1,duration:0.3,ease:'back.out(2)'},t0+4.1);
+  tl.to($('#tick',r),{strokeDashoffset:0,duration:0.3},t0+4.7); ev(t0+4.7,'ok');
+}
+function CUSTOM_S4(r,t0){
+  tl.from($('#barA',r),{scaleY:0,transformOrigin:'50% 100%',duration:0.5},t0+1.5);
+  tl.from($('#barB',r),{autoAlpha:0,duration:0.3},t0+1.5);
+  tl.from($('#barAdd',r),{scaleY:0,transformOrigin:'50% 100%',duration:1.1,ease:'power3.inOut'},t0+2.0);
+  tl.from($('#bNum',r),{autoAlpha:0,duration:0.2},t0+1.9);
+  tl.to($('#plus',r),{opacity:1,duration:0.2},t0+3.0);
+  ev(t0+2.0,'count');
+}
+function CUSTOM_S5(r,t0){
+  tl.to($('#chart',r),{strokeDashoffset:0,duration:1.4,ease:'power1.in'},t0+2.3);
+  tl.to($('#drop',r),{opacity:1,duration:0.05},t0+3.65);
+  tl.from($('#drop',r),{scale:1.6,transformOrigin:'0% 100%',duration:0.3,ease:'back.out(2)'},t0+3.65);
+  ev(t0+3.65,'err');
+}
+
+/* ================= PROCEDURAL (per frame) ================= */
+const rain = document.getElementById('rain').getContext('2d');
+const COLS = Array.from({length:36},(_,i)=>{ const h = Math.sin(i*127.1)*43758.5453; const f = h-Math.floor(h);
+  return {x: 18+i*30, v: 60+f*140, o: f*1920, len: 6+Math.floor(f*10), red: (i%5===0)}; });
+const GLY = '+-01{}<>/;=';
+function drawRain(t){
+  rain.clearRect(0,0,1080,1920);
+  rain.font = '700 24px JBM';
+  for(const c of COLS){
+    const head = (c.o + c.v*t) % (1920+c.len*28);
+    for(let k=0;k<c.len;k++){
+      const y = head - k*28; if(y<-30||y>1950) continue;
+      const a = (1-k/c.len)*0.10;
+      rain.fillStyle = c.red ? `rgba(255,77,94,${a})` : `rgba(74,222,128,${a})`;
+      const g = GLY[(Math.floor(t*6)+k+Math.floor(c.x))%GLY.length];
+      rain.fillText(g, c.x, y);
+    }
+  }
+}
+const grainTiles = Array.from({length:1},(_,s)=>{
+  const cv = document.createElement('canvas'); cv.width=cv.height=240; const x=cv.getContext('2d');
+  const im = x.createImageData(240,240); let seed = 1234+s*999;
+  for(let p=0;p<im.data.length;p+=4){ seed = (seed*16807)%2147483647; const v = seed%255; im.data[p]=im.data[p+1]=im.data[p+2]=v; im.data[p+3]=255; }
+  x.putImageData(im,0,0); return `url(${cv.toDataURL()})`; });
+
+/* ================= KOPI THE ANCHOR ================= */
+const ANCH = {};
+['intro','outro'].forEach(id=>{ const el=$('#'+id+' .kopi'); el.innerHTML=KOPI.svg(id); ANCH[id]=el; });
+ANCH.cam = $('#cam .kopiCam'); ANCH.cam.innerHTML = KOPI.svg('cam');
+const px = (x,y,w,h,c)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;
+const MUG = `<svg viewBox="0 0 12 12" shape-rendering="crispEdges">
+  <g class="steam s0">${px(4,0,1,1,'#8a969e')}${px(5,1,1,1,'#8a969e')}${px(4,2,1,1,'#8a969e')}${px(7,1,1,1,'#8a969e')}${px(6,2,1,1,'#8a969e')}</g>
+  <g class="steam s1">${px(5,0,1,1,'#8a969e')}${px(4,1,1,1,'#8a969e')}${px(5,2,1,1,'#8a969e')}${px(6,0,1,1,'#8a969e')}${px(7,2,1,1,'#8a969e')}</g>
+  ${px(2,4,7,1,'#cfd6d2')}${px(3,4,5,1,'#6b3f22')}${px(2,5,7,6,'#e6ebe8')}${px(7,5,2,6,'#b7c0bb')}${px(2,7,7,2,'#4ade80')}
+  ${px(9,6,2,1,'#e6ebe8')}${px(10,7,1,2,'#e6ebe8')}${px(9,9,2,1,'#e6ebe8')}${px(3,11,5,1,'#b7c0bb')}</svg>`;
+$$('.desk .mug').forEach(m=>m.innerHTML = MUG);
+const LS = window.LIPSYNC || {fps:30, codes:''};
+const MOODS = ['happy','worried','normal','dollar','shocked'];
+function moodAt(t){ if(t<T_INTRO[1] || t>=T_OUTRO[0]) return 'happy'; return MOODS[Math.min(4,Math.floor((t-T_INTRO[1])/10))]; }
+function codeAt(f){ const c = LS.codes.charCodeAt(f); return (c>=48 && c<=52) ? c-48 : 0; }
+function anchorState(t){
+  const f = Math.floor(t*FPS+1e-6), code = codeAt(f), mood = moodAt(t);
+  let speaking = false; for(let k=-4;k<=4;k++) if(codeAt(f+k)>0){ speaking = true; break; }
+  const idle = {happy:'smile', worried:'frown', normal:'closed', dollar:'smile', shocked:'O'}[mood];
+  const mouth = code ? ['closed','m1','m2','m3','O'][code] : idle;
+  const blink = ((t+0.7)%3.1) < 0.12 && mood!=='happy';
+  const bob = speaking ? Math.floor(t*4)%2 : Math.floor(t*1.25)%2;
+  const alarm = mood==='worried' || mood==='shocked';
+  const led = alarm ? (Math.floor(t*3)%2 ? '#ff4d5e' : '#5a1a20') : ((t%1.6)<0.1 ? '#1f5c38' : '#4ade80');
+  const wave = ((t>1.9 && t<3.1) || (t>58.2 && t<60.3)) ? 1+Math.floor(t*6)%2 : 0;
+  return {t, mouth, eyes: blink?'blink':mood, bob, led, wave};
+}
+function updateAnchors(t){
+  const st = anchorState(t);
+  if(t < T_INTRO[1]+0.1) KOPI.update(ANCH.intro, st);
+  if(t > T_INTRO[1]-0.1 && t < T_OUTRO[0]+0.1) KOPI.update(ANCH.cam, Object.assign({}, st, {wave:0}));
+  if(t > T_OUTRO[0]-0.1) KOPI.update(ANCH.outro, st);
+  const fr = Math.floor(t*3)%2;
+  $$('.mug .s0').forEach(g=>g.setAttribute('display', fr?'none':'inline'));
+  $$('.mug .s1').forEach(g=>g.setAttribute('display', fr?'inline':'none'));
+  const lg = $('#intro .logoBig img');
+  if(t>0.95 && t<1.4){ const j = Math.round(Math.sin(t*91)*9); lg.style.filter = `drop-shadow(${j}px 0 rgba(255,77,94,.85)) drop-shadow(${-j}px 0 rgba(77,227,255,.85))`; }
+  else lg.style.filter = '';
+}
+
+document.getElementById('grain').style.backgroundImage = grainTiles[0];
+function procedural(t){
+  updateAnchors(t);
+  drawRain(t);
+  document.getElementById('tickTxt').style.transform = `translateX(${-((t*110)%(tickUnit.length*20.8))}px)`;
+  // typewriters
+  const blink = (Math.floor(t*2.4)%2)===0;
+  for(const ty of TYPES){
+    const n = Math.max(0,Math.min(ty.text.length, Math.floor((t-ty.t0)*ty.cps+1e-6)));
+    const showCur = ty.cursor && t>=ty.t0 && t<ty.cursorUntil && (t<ty.t1 || blink);
+    ty.el.innerHTML = escapeHtml(ty.text.slice(0,n)) + (showCur?'<span class="cur"></span>':'');
+  }
+  // story 1: rocket on orbit + satellite counter
+  { const r=$('#s1'), t0=storyStart(0), lt=t-t0;
+    const th = -Math.PI/2 + lt*1.35, rx=245, ry=80, rot=-14*Math.PI/180;
+    const ex = rx*Math.cos(th), ey = ry*Math.sin(th);
+    const x = 260 + ex*Math.cos(rot) - ey*Math.sin(rot), y = 230 + ex*Math.sin(rot) + ey*Math.cos(rot);
+    const dx = -rx*Math.sin(th), dy = ry*Math.cos(th);
+    const ang = Math.atan2(dx*Math.sin(rot)+dy*Math.cos(rot), dx*Math.cos(rot)-dy*Math.sin(rot))*180/Math.PI;
+    const behind = Math.sin(th) < 0 && Math.hypot(x-260,y-230) < 140;
+    const rk = $('#rocket',r); rk.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)}) scale(1.25)`);
+    rk.setAttribute('opacity', behind ? 0.18 : 1);
+    $('#flame',r).setAttribute('transform',`scale(1 ${(0.8+0.35*Math.abs(Math.sin(t*40))).toFixed(2)})`);
+    const n = Math.max(0,Math.min(26,Math.floor((lt-2.2)/0.055)+1));
+    $('#satN',r).textContent = 'x'+n;
+  }
+  // story 2: blinking eyes
+  { const r=$('#s2'), lt=t-storyStart(1); const shut = (lt%2.2)>2.05;
+    $$('#eyeL,#eyeR',r).forEach(e=>e.setAttribute('height', shut?4:26)); }
+  // story 4: counter + coins
+  { const r=$('#s4'), lt=t-storyStart(3); const p = gsap.parseEase('power3.inOut')(Math.max(0,Math.min(1,(lt-2.0)/1.1)));
+    $('#bNum',r).textContent = '$'+Math.round(85+150*p)+'B';
+    $$('.coin',r).forEach((c,k)=>{ const ph = lt-3.2-k*0.35; if(ph<0){c.setAttribute('opacity',0);return;}
+      const cyc = ph%1.6, u = cyc/1.6; const x = 730 + (k%2?1:-1)*(20+k*18)*u, y = 130 - 220*u + 260*u*u;
+      c.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`); c.setAttribute('opacity', u<0.85?1:(1-u)/0.15); }); }
+  // story 5: CEO moves along the arc
+  { const r=$('#s5'), lt=t-storyStart(4); const u = gsap.parseEase('power2.inOut')(Math.max(0,Math.min(1,(lt-2.4)/1.2)));
+    const x = (1-u)*(1-u)*165 + 2*(1-u)*u*425 + u*u*685, y = (1-u)*(1-u)*150 + 2*(1-u)*u*-100 + u*u*150;
+    const c = $('#ceo',r); c.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+    c.setAttribute('opacity', lt<1.6?0:Math.min(1,(lt-1.6)/0.3)); }
+  // headline chromatic glitch at reveal
+  STORIES.forEach((s,i)=>{ const lt = t-storyStart(i); const h=$('#s'+(i+1)+' .headline');
+    if(lt>0.3&&lt<0.62){ const j = Math.sin(t*97.3)*6; h.style.textShadow = `${j}px 0 rgba(255,77,94,.7), ${-j}px 0 rgba(77,227,255,.7)`; }
+    else h.style.textShadow = 'none'; });
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ================= PUBLIC API ================= */
+window.__DURATION = DURATION; window.__FPS = FPS; window.__EVENTS = EVENTS;
+window.__seek = t => { tl.seek(t,false); procedural(t); };
+window.__ready = false;
+Promise.all(['400 20px JBM','700 20px JBM','800 20px JBM','400 20px Pix','700 20px Pix','500 20px SG','700 20px SG'].map(f=>document.fonts.load(f)))
+  .then(()=>document.fonts.ready).then(()=>{ window.__seek(0); window.__ready = true; });
+// live preview when opened in a normal browser (?play)
+if(location.search.includes('play')){
+  const st = performance.now();
+  (function loop(){ const t=((performance.now()-st)/1000)%DURATION; window.__seek(t); requestAnimationFrame(loop); })();
+}
+</script>
+</body>
+</html>

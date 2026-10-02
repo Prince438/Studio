@@ -1,0 +1,48 @@
+{
+ "voice": "af_heart",
+ "base_speed": 1.1,
+ "lines": [
+  {
+   "id": "intro",
+   "start": 1.45,
+   "max": 4.3,
+   "text": "Hey builders! Kopi here, with a KD Tech Daily DevDay special."
+  },
+  {
+   "id": "s1",
+   "start": 6.35,
+   "max": 9.2,
+   "text": "The big DevDay reveal: dots. Always-on agents, each with its own cloud computer and browser, wired into over four thousand apps."
+  },
+  {
+   "id": "s2",
+   "start": 16.35,
+   "max": 9.2,
+   "text": "GPT six point one Sol is here. It's built for agentic coding and computer use, at one fifth the price of Astra."
+  },
+  {
+   "id": "s3",
+   "start": 26.35,
+   "max": 9.2,
+   "text": "Ultrafast is a new speed tier, up to eight times faster in Codex. And a new Pro five hundred plan gets twenty-five times the Plus allowance."
+  },
+  {
+   "id": "s4",
+   "start": 36.35,
+   "max": 9.2,
+   "text": "Codex moves into the cloud, with reusable dev environments. The CLI now takes voice, and Code Review summarizes your changes."
+  },
+  {
+   "id": "s5",
+   "start": 46.35,
+   "max": 9.2,
+   "text": "And the Agents API can now use computers, operating software through its interface, with multi-agent support and tool calling."
+  },
+  {
+   "id": "outro",
+   "start": 56.6,
+   "max": 3.4,
+   "text": "That's DevDay, builders. Now go build something!"
+  }
+ ]
+}

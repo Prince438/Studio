@@ -1,0 +1,59 @@
+{
+ "voices": {
+  "kopi": "af_heart"
+ },
+ "base_speed": {
+  "kopi": 1.1
+ },
+ "lines": [
+  {
+   "id": "open",
+   "speaker": "kopi",
+   "start": 5.1,
+   "max": 5.6,
+   "text": "Good morning, Kracked Devs! It's Friday, October second. I'm Kopi, and here's what shipped in tech."
+  },
+  {
+   "id": "s1",
+   "speaker": "kopi",
+   "start": 11.35,
+   "max": 12.3,
+   "text": "First up: the decision model craze. After Jev went viral, Amazon open-sourced Strands Decider, and Cloudflare launched Clef. They don't write text. They just pick an answer, with odds, in milliseconds."
+  },
+  {
+   "id": "s2",
+   "speaker": "kopi",
+   "start": 24.35,
+   "max": 12.3,
+   "text": "Bad news from the Pentagon. Hackers spent nine months inside a defense file share, taking records on about three million people. Social Security numbers, unencrypted. And nobody knows who did it."
+  },
+  {
+   "id": "s3",
+   "speaker": "kopi",
+   "start": 37.35,
+   "max": 12.3,
+   "text": "DeepSeek, with help from Huawei, open-sourced six AI tools for Ascend chips. Key libraries keep their Nvidia APIs, and the matrix kernels hit ninety-nine percent of peak."
+  },
+  {
+   "id": "s4",
+   "speaker": "kopi",
+   "start": 50.35,
+   "max": 12.3,
+   "text": "In California, Governor Newsom vetoed a bill that would have banned secretly recording people with smart glasses and other wearables. He called it too broad, and said current law already covers it."
+  },
+  {
+   "id": "s5",
+   "speaker": "kopi",
+   "start": 63.35,
+   "max": 12.3,
+   "text": "And for builders: Shopify launched Canvas. Just chat with its AI agent, Sidekick, and it edits your store's real theme code while you watch. It's rolling out over the next few days."
+  },
+  {
+   "id": "out",
+   "speaker": "kopi",
+   "start": 76.6,
+   "max": 6.0,
+   "text": "That's the diff for today. Now go build something, and happy Friday!"
+  }
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "voices": {
+  "kopi": "af_heart"
+ },
+ "clips": [
+  {
+   "id": "open",
+   "speaker": "kopi",
+   "start": 5.1,
+   "dur": 5.43,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Good morning, Kracked Devs! It's Thursday, October first. I'm Kopi, and here's what shipped in tech."
+  },
+  {
+   "id": "s1",
+   "speaker": "kopi",
+   "start": 11.35,
+   "dur": 12.26,
+   "speed": 1.203,
+   "sr": 24000,
+   "text": "First up: Google dropped Gemini four Argon, its most powerful model yet. It tops the Deep S W E coding benchmark at seventy-eight percent, writes a million tokens in one go, and cyber defenders get it first."
+  },
+  {
+   "id": "s2",
+   "speaker": "kopi",
+   "start": 24.35,
+   "dur": 12.28,
+   "speed": 1.147,
+   "sr": 24000,
+   "text": "Over in Washington, the F T C opened a probe into OpenAI and Anthropic over consumer risks. That's one day after big tech signed a voluntary White House AI pledge, which spelled it: Unites States."
+  },
+  {
+   "id": "s3",
+   "speaker": "kopi",
+   "start": 37.35,
+   "dur": 12.22,
+   "speed": 1.147,
+   "sr": 24000,
+   "text": "DoorDash is taking off. Its new DoorDash Air drone delivers in under five minutes, starting with Chipotle and Popeyes in Northern California. And now you can just text its AI agent in Apple Messages."
+  },
+  {
+   "id": "s4",
+   "speaker": "kopi",
+   "start": 50.35,
+   "dur": 11.74,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Bad news for devs: Reddit is killing R S S on November thirteenth, and closing its free public API by March, blaming AI scrapers. Builders get pushed to Devvit, or paid deals."
+  },
+  {
+   "id": "s5",
+   "speaker": "kopi",
+   "start": 63.35,
+   "dur": 9.88,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "And voice AI keeps booming. Eleven Labs is now worth twenty-two billion dollars, double its February price, after a three hundred million dollar employee share sale."
+  },
+  {
+   "id": "out",
+   "speaker": "kopi",
+   "start": 76.6,
+   "dur": 3.88,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "That's the diff for today. Now go build something, and I'll see you tomorrow!"
+  }
+ ]
+}
