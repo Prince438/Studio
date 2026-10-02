@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KD Hot Topic: The Decision Model Wars</title>
+<style>
+@font-face{font-family:"JBM";font-weight:400;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"JBM";font-weight:700;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"JBM";font-weight:800;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Pix";font-weight:400;src:url(node_modules/@fontsource/silkscreen/files/silkscreen-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Pix";font-weight:700;src:url(node_modules/@fontsource/silkscreen/files/silkscreen-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"SG";font-weight:500;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"SG";font-weight:700;src:url(node_modules/@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Bungee";font-weight:400;src:url(node_modules/@fontsource/bungee/files/bungee-latin-400-normal.woff2) format("woff2")}
+:root{--bg:#07090c;--add:#4ade80;--hot:#ff7a3d;--hot2:#ff3d2e;--ink:#eef3ef;--muted:#8a9a93;--line:#1a232b;--panel:#0c1116}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;background:#000;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"JBM",monospace}
+.scene{position:absolute;inset:0;visibility:hidden;overflow:hidden}
+.px svg{display:block;width:100%;height:100%;overflow:visible}
+.abs{position:absolute}
+
+/* ===== newsroom ===== */
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#sky{position:absolute;left:0;top:0;width:1920px;height:1080px;image-rendering:pixelated}
+#winframe{position:absolute;inset:0;pointer-events:none}
+.mull{position:absolute;top:0;width:22px;background:linear-gradient(90deg,#05070a,#1c2430 40%,#0b0f14);box-shadow:0 0 18px rgba(0,0,0,.6)}
+.transom{position:absolute;left:0;right:0;height:16px;background:linear-gradient(180deg,#1c2430,#06080b)}
+.glass{position:absolute;inset:0;background:linear-gradient(115deg,transparent 0 38%,rgba(255,255,255,.05) 40%,transparent 46%,transparent 62%,rgba(255,255,255,.035) 64%,transparent 70%)}
+#ceiling{position:absolute;left:0;right:0;top:0;height:46px;background:linear-gradient(180deg,#05070a,#0d1218);border-bottom:3px solid #1d2630}
+.lamp{position:absolute;top:30px;width:56px;height:14px;background:#2a3440;border:2px solid #05070a}
+.lamp i{position:absolute;left:8px;right:8px;bottom:-3px;height:3px;background:#ffe9b8;box-shadow:0 0 18px 6px rgba(255,220,160,.35)}
+#floor{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,#0e1520,#06090d 70%);border-top:3px solid #ffb066}
+#floor::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 118px,rgba(74,222,128,.06) 118px 120px)}
+#wall{position:absolute;background:#020304;border:12px solid #12171d;outline:3px solid #2b3842;box-shadow:0 0 90px rgba(255,122,61,.18),0 18px 40px rgba(0,0,0,.7);overflow:hidden}
+#wall .w{position:absolute;inset:0;opacity:0;overflow:hidden}
+#wall .w img.fill{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#wall::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 2px,transparent 2px 4px);pointer-events:none}
+#wall .wbug,#wall .wlive{display:none!important}
+#wall .wlive{position:absolute;right:14px;top:12px;z-index:3;font-family:"Pix";font-size:18px;background:#d7263d;color:#fff;padding:3px 10px 1px}
+#wall .wbug{position:absolute;left:14px;top:12px;z-index:3;display:flex;align-items:center;gap:8px;font-family:"Pix";font-weight:700;font-size:18px}
+#wall .wbug img{height:22px;image-rendering:pixelated}
+.wt{background:radial-gradient(90% 100% at 50% 30%,#3a1a10,#0b0606 70%)}
+.wt .flame{position:absolute;left:50%;top:44px;transform:translateX(-50%);width:64px;height:76px}
+.wt .h1{position:absolute;left:0;right:0;top:130px;text-align:center;font-family:"Bungee";font-size:62px;line-height:1.02;color:#fff;text-shadow:0 0 24px rgba(255,122,61,.55)}
+.wt .h1 b{color:var(--hot);font-weight:400}
+.wt .logos{position:absolute;left:0;right:0;bottom:30px;display:flex;justify-content:center;align-items:center;gap:34px}
+.wt .logos img{height:34px;opacity:.95}
+.wq{background:linear-gradient(135deg,#130b08,#200f0a);display:flex;flex-direction:column;justify-content:center;padding:40px 54px}
+.wq .q{font-family:"SG";font-weight:700;font-size:38px;line-height:1.18;color:#fff}
+.wq .q b{color:var(--hot)}
+.wq .by{margin-top:18px;font-family:"Pix";font-size:18px;color:#ffb38a;letter-spacing:1px}
+.wj{background:#e9e2d0}
+.wj img{position:absolute;left:30px;top:30px;bottom:30px;height:calc(100% - 60px);border:3px solid #3a2c1a;filter:sepia(.25)}
+.wj .t{position:absolute;left:42%;right:30px;top:50px;color:#2a1f12;font-family:"SG";font-weight:700;font-size:34px;line-height:1.1}
+.wj .t small{display:block;margin-top:10px;font-family:"Pix";font-weight:400;font-size:16px;color:#7a5c33}
+.wj .t i{display:block;margin-top:22px;font-style:normal;font-family:"JBM";font-size:20px;line-height:1.35;color:#2a1f12;background:#fff3d6;border-left:5px solid var(--hot);padding:10px 14px}
+.wj .cr{position:absolute;right:12px;bottom:8px;font-family:"Pix";font-size:12px;color:#7a5c33}
+.wv{background:radial-gradient(80% 100% at 50% 40%,#22140c,#070404)}
+.wv .vs{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:30px;font-family:"Bungee";font-size:58px;text-align:center;line-height:1}
+.wv .a{color:#ffd84d} .wv .b{color:var(--add)} .wv .o{font-family:"Pix";font-size:30px;color:#fff}
+.wf{background:#0b1015}
+.flow{position:absolute;inset:48px 16px 40px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.fbox{flex:none;width:112px;padding:12px 6px;border:3px solid #2b3842;background:#0f161d;text-align:center;font-family:"Pix";font-size:12px;line-height:1.4;color:#cfe0d6}
+.fbox b{display:block;font-size:17px;color:#fff;margin-bottom:5px}
+.fbox.m{width:122px;border-color:var(--hot);box-shadow:0 0 22px rgba(255,122,61,.35)} .fbox.m b{color:var(--hot)}
+.fbox.c{border-color:var(--add)} .fbox.c b{color:var(--add)}
+.farr{flex:1;min-width:14px;height:4px;background:linear-gradient(90deg,#2b3842,#ffb38a);position:relative}
+.farr::after{content:"";position:absolute;right:-2px;top:-7px;border:9px solid transparent;border-left:12px solid #ffb38a;border-right:0}
+.fopts{flex:none;display:flex;flex-direction:column;gap:5px;font-family:"Pix";font-size:12px}
+.fopts span{padding:4px 8px;background:#14202a;border-left:4px solid var(--add);color:#cfe0d6}
+.wf .cap{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:"Pix";font-size:16px;color:#ffb38a;letter-spacing:1px}
+/* 16:9: the scaled-up wall sits behind the anchors' heads, so every card keeps its text in the top band (design y < 185) */
+html:not(.v916) .wt .flame{display:none}
+html:not(.v916) .wt .h1{top:44px;font-size:46px;line-height:1}
+html:not(.v916) .wt .logos{top:152px;bottom:auto;gap:30px} html:not(.v916) .wt .logos img{height:26px}
+html:not(.v916) .wj img{left:18px;top:42px;bottom:auto;height:140px}
+html:not(.v916) .wj .t{left:148px;right:22px;top:44px;font-size:28px}
+html:not(.v916) .wj .t small{margin-top:4px;font-size:13px} html:not(.v916) .wj .t i{margin-top:8px;font-size:15px;padding:6px 10px}
+html:not(.v916) .wj .cr{right:auto;left:18px;bottom:auto;top:188px}
+html:not(.v916) .wv .vs{align-items:flex-start;padding-top:52px;font-size:50px}
+html:not(.v916) .flow{inset:40px 14px auto;height:112px}
+html:not(.v916) .wf .cap{top:156px;bottom:auto;font-size:14px}
+html:not(.v916) .wq{justify-content:flex-start;padding:46px 40px}
+html:not(.v916) .wq .q{font-size:26px;line-height:1.15} html:not(.v916) .wq .by{margin-top:10px;font-size:14px}
+#kopiB,#kopiA,#kenjiB,#kenjiA{position:absolute}
+#desk{position:absolute}
+
+/* ===== full-screen media ===== */
+#mBg{position:absolute;inset:-60px;background:#000}
+#mBg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(38px) brightness(.42) saturate(1.2)}
+#mFrame{position:absolute;overflow:hidden;background:#000;box-shadow:0 30px 70px rgba(0,0,0,.65)}
+#mFrame img.mi{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#mFrame.contain img.mi{object-fit:contain;background:#fff}
+#mFrame .scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 2px,transparent 2px 4px);pointer-events:none}
+.mlay{position:absolute;inset:0;pointer-events:none}
+.mcredit{position:absolute;font-weight:700;font-size:16px;letter-spacing:2px;color:#e8f0ea;background:rgba(7,9,12,.78);padding:5px 12px;z-index:6}
+#mSide{position:absolute}
+.kick{font-family:"Pix";font-size:22px;color:var(--hot);letter-spacing:2px}
+.mtitle{margin-top:14px;font-family:"Bungee";font-size:58px;line-height:1.02;color:#fff}
+.mtitle b{color:var(--hot);font-weight:400}
+.wid{margin-top:34px;background:rgba(12,17,22,.92);border:3px solid #2b3842;box-shadow:10px 10px 0 rgba(255,122,61,.25);padding:20px 24px}
+.wid .q{font-size:26px;color:#fff}
+.bar{display:flex;align-items:center;gap:14px;margin-top:14px;font-family:"Pix";font-size:22px}
+.bar .lab{width:60px} .bar .tr{flex:1;height:26px;background:#1a232b;position:relative}
+.bar .f{position:absolute;left:0;top:0;bottom:0;width:0} .bar .v{width:76px;text-align:right}
+.yes .f{background:var(--add)} .no .f{background:#ef4444}
+.price{font-family:"Bungee";font-size:52px;color:#fff;line-height:1}
+.price small{display:block;margin-top:8px;font-family:"Pix";font-size:20px;color:var(--muted);letter-spacing:1px}
+.pfree{margin-top:20px;display:inline-block;font-family:"Bungee";font-size:40px;color:#07090c;background:var(--add);padding:8px 18px 4px}
+.note{margin-top:16px;font-family:"Pix";font-size:16px;color:var(--muted)}
+.chip{position:absolute;font-family:"Pix";font-weight:700;font-size:26px;padding:8px 16px 5px;color:#fff;z-index:5}
+.big{position:absolute;z-index:5;font-family:"Bungee";color:#fff;text-shadow:0 6px 30px rgba(0,0,0,.8)}
+.stk{position:absolute;z-index:6;font-family:"Pix";font-weight:700;font-size:34px;padding:12px 20px 8px;border:5px solid;background:#07090c}
+.hl{position:absolute;border:5px solid var(--add);box-shadow:0 0 24px rgba(74,222,128,.7);z-index:4}
+.hlt{position:absolute;font-family:"Pix";font-weight:700;font-size:24px;color:#07090c;background:var(--add);padding:5px 12px 3px;white-space:nowrap;z-index:4}
+
+/* ===== shared overlays ===== */
+#bug{position:absolute;left:36px;top:26px;z-index:20;display:flex;align-items:center;gap:12px;font-family:"Pix";font-weight:700;font-size:28px;letter-spacing:1px;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+#bug img{height:40px;image-rendering:pixelated}
+#bug .hot{color:var(--hot)}
+#bug svg{width:26px;height:32px}
+#live{position:absolute;right:36px;top:32px;z-index:20;font-family:"Pix";font-size:22px;color:#fff;background:#d7263d;padding:5px 14px 3px;display:flex;align-items:center;gap:10px}
+#live i{width:10px;height:10px;background:#fff;display:inline-block}
+#lower{position:absolute;left:60px;bottom:86px;z-index:18;display:flex;align-items:stretch;height:118px;visibility:hidden}
+#lower .av{position:relative;width:118px;height:118px;background:radial-gradient(70% 80% at 50% 30%,#2a1610,#0b0706);border:4px solid var(--hot);overflow:hidden}
+#lower .av .px{position:absolute;left:-14px;top:-6px;width:146px;height:175px}
+#lower .tx{display:flex;flex-direction:column;justify-content:center;background:rgba(7,9,12,.92);border:3px solid #2b3842;border-left:none;padding:0 26px;min-width:560px}
+#lower .nm{font-family:"Pix";font-weight:700;font-size:28px;color:var(--hot);letter-spacing:1px}
+#lower .nm span{font-family:"JBM";font-weight:400;font-size:16px;color:var(--muted);letter-spacing:3px;margin-left:12px}
+#lower .hd{margin-top:6px;font-family:"SG";font-weight:700;font-size:30px;color:#fff;white-space:nowrap}
+#ticker{position:absolute;left:0;right:0;top:1030px;height:50px;z-index:19;border-top:3px solid #3a1d10;background:#0a0605;overflow:hidden}
+#ticker .tag{position:absolute;left:0;top:0;bottom:0;z-index:2;display:flex;align-items:center;padding:0 18px;font-family:"Pix";font-weight:700;font-size:22px;color:#07090c;background:var(--hot)}
+#tickTxt{position:absolute;top:10px;left:0;white-space:nowrap;font-family:"Pix";font-size:23px;color:#ffb38a;letter-spacing:1px}
+
+/* intro + end card */
+#intro{background:radial-gradient(80% 90% at 50% 45%,#2a120a,#050303 72%)}
+#intro .flame{position:absolute;left:50%;top:250px;transform:translateX(-50%);width:120px;height:144px}
+#intro .logo{position:absolute;left:0;right:0;top:420px;display:flex;justify-content:center;align-items:center;gap:26px}
+#intro .logo img{height:120px;image-rendering:pixelated}
+#intro .logo span{font-family:"Bungee";font-size:120px;color:#fff;line-height:1}
+#intro .logo span b{color:var(--hot);font-weight:400}
+#intro .topic{position:absolute;left:0;right:0;top:600px;text-align:center;font-family:"Pix";font-weight:700;font-size:44px;letter-spacing:6px;color:#ffd9c2}
+#intro .with{position:absolute;left:0;right:0;top:690px;text-align:center;font-family:"JBM";font-size:24px;color:var(--muted);letter-spacing:4px}
+#endcard{background:radial-gradient(80% 90% at 50% 45%,#2a120a,#050303 72%)}
+#endcard .logo{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center;align-items:center;gap:22px}
+#endcard .logo img{height:96px;image-rendering:pixelated}
+#endcard .logo span{font-family:"Bungee";font-size:96px;color:#fff;line-height:1}
+#endcard .logo span b{color:var(--hot);font-weight:400}
+#endcard .tag{position:absolute;left:0;right:0;top:450px;text-align:center;font-family:"Pix";font-weight:700;font-size:40px;letter-spacing:6px;color:var(--add)}
+#endcard .src{position:absolute;left:260px;right:260px;top:600px;text-align:center;font-size:18px;line-height:1.6;color:var(--muted)}
+
+/* fx */
+#wipe{position:absolute;inset:0;z-index:30;pointer-events:none}
+#wipe div{position:absolute;left:0;width:100%;height:91px;transform:scaleX(0)}
+#flash{position:absolute;inset:0;background:#fff3ea;opacity:0;z-index:31;pointer-events:none;mix-blend-mode:screen}
+#scan{position:absolute;inset:0;z-index:40;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 2px,transparent 2px 4px);mix-blend-mode:multiply}
+#vig{position:absolute;inset:0;z-index:41;pointer-events:none;background:radial-gradient(95% 105% at 50% 50%,transparent 60%,rgba(0,0,0,.55) 100%)}
+#grain{position:absolute;inset:0;z-index:42;pointer-events:none;opacity:.06;background-size:240px 240px}
+#black{position:absolute;inset:0;background:#000;z-index:50;opacity:0}
+
+/* ===== 9:16 ===== */
+html.v916,html.v916 body,html.v916 #stage{width:1080px;height:1920px}
+.v916 #cam,.v916 #sky{width:1080px;height:1920px}
+.v916 #bug{left:30px;top:40px;font-size:26px} .v916 #live{right:30px;top:46px}
+.v916 #ticker{top:1862px;height:58px} .v916 #tickTxt{top:14px}
+.v916 #lower{left:30px;right:30px;bottom:110px;height:124px} .v916 #lower .tx{flex:1;min-width:0;padding:0 20px} .v916 #lower .hd{font-size:27px;white-space:normal;line-height:1.15}
+.v916 #lower .av{width:124px;height:124px}
+.v916 .wt .h1{font-size:68px;top:150px}
+.v916 .kick{font-size:24px} .v916 .mtitle{font-size:62px}
+.v916 #intro .flame{top:520px} .v916 #intro .logo{top:720px;flex-direction:column;gap:14px} .v916 #intro .logo span{font-size:110px;text-align:center}
+.v916 #intro .topic{top:1080px;font-size:46px;line-height:1.4;padding:0 60px} .v916 #intro .with{top:1260px}
+.v916 #endcard .logo{top:560px;flex-direction:column} .v916 #endcard .logo span{font-size:96px;text-align:center} .v916 #endcard .tag{top:860px}
+.v916 #endcard .src{left:80px;right:80px;top:1000px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <section class="scene" id="room"><div id="cam">
+    <canvas id="sky"></canvas>
+    <div id="winframe"><div class="glass"></div></div>
+    <div id="ceiling"></div>
+    <div id="floor"></div>
+    <div id="wall"></div>
+    <div id="kopiB" class="px"></div><div id="kenjiB" class="px"></div>
+    <div id="desk"></div>
+    <div id="kopiA" class="px"></div><div id="kenjiA" class="px"></div>
+  </div></section>
+
+  <section class="scene" id="media">
+    <div id="mBg"><img alt=""></div>
+    <div id="mFrame"><img class="mi" alt=""><div class="scan"></div><div class="mlay" id="mLayIn"></div></div>
+    <div id="mSide"></div>
+    <div class="mlay" id="mLay"></div>
+  </section>
+
+  <section class="scene" id="intro">
+    <div class="flame"></div>
+    <div class="logo"><img src="brand/kd_logo.png" alt=""><span>HOT <b>TOPIC</b></span></div>
+    <div class="topic">THE DECISION MODEL WARS</div>
+    <div class="with">WITH KOPI + KENJI · LIVE FROM KUALA LUMPUR</div>
+  </section>
+
+  <section class="scene" id="endcard">
+    <div class="logo"><img src="brand/kd_logo.png" alt=""><span>HOT <b>TOPIC</b></span></div>
+    <div class="tag">LEARN. BUILD. SHIP.</div>
+    <div class="src">src: TypeSafe AI, OpenAI DevDay 2026, TechCrunch, The Information (as reported), Cloudflare, AWS via VentureBeat.<br>video: TypeSafe AI, OpenAI. Jevons portrait by G. J. Stodart (public domain).<br>Logos are trademarks of their owners; no endorsement implied.</div>
+  </section>
+
+  <div id="lower"><div class="av"><div class="px" id="avK"></div><div class="px" id="avN"></div></div><div class="tx"><div class="nm"></div><div class="hd"></div></div></div>
+  <div id="bug"><img src="brand/kd_logo.png" alt=""><span>HOT <span class="hot">TOPIC</span></span></div>
+  <div id="live"><i></i>LIVE · KL</div>
+  <div id="ticker"><div class="tag">HOT TOPIC</div><div id="tickTxt"></div></div>
+  <div id="wipe"></div><div id="flash"></div>
+  <div id="scan"></div><div id="vig"></div><div id="grain"></div><div id="black"></div>
+</div>
+
+<script src="node_modules/gsap/dist/gsap.min.js"></script>
+<script src="anchor.js"></script>
+<script src="kenji.js"></script>
+<script src="newsroom.js"></script>
+<script src="lipsync.js"></script>
+<script src="words.js"></script>
+<script>
+/* ================= FORMAT + GEOMETRY ================= */
+const FPS = 30;
+const V916 = new URLSearchParams(location.search).get('fmt') === '916';      // 9:16 vertical version of the same episode
+const SW = V916 ? 1080 : 1920, SH = V916 ? 1920 : 1080;
+if (V916) document.documentElement.classList.add('v916');
+const KOPI_OUTFIT = 'batik', KENJI_OUTFIT = 'denim';                          // this show's own wardrobe picks
+// S = px per sprite unit, (ox, oy) = Kopi's sprite origin; Kenji sits 64 units to her right
+const GEO = V916
+  ? { S: 9, ox: 72, oy: 1011, skyW: 270, skyH: 480, sky: { horizon: 330, petronas: 135, merdeka: 30, menara: 245 }, wall: [20, 150, 800, 450, 1.3], floorY: 1440, mull: [0, 520, 1058], transom: 1310, lamps: [120, 400, 680, 960] }
+  : { S: 10, ox: 440, oy: 410, skyW: 480, skyH: 270, sky: { horizon: 190, petronas: 425, merdeka: 30, menara: 78 }, wall: [400, 46, 640, 360, 1.75], floorY: 880, mull: [0, 386, 1512, 1898], transom: 744, lamps: [180, 520, 1340, 1680] };
+const { S, ox, oy } = GEO, KX = 64;
+const deskX0 = -ox / S, deskX1 = (SW - ox) / S, deskY1 = 26 + (SH - (oy + 26 * S)) / S;
+
+/* ================= DATA ================= */
+const WD = window.WORDS || {}, VO = window.VO || {};
+const norm = s => s.toLowerCase().replace(/[^a-z0-9'-]/g, '');
+function WT(id, word, nth = 0) { let k = 0; for (const [w, t] of (WD[id] || [])) if (norm(w).startsWith(norm(word))) { if (k === nth) return t; k++; } console.error('WT miss', id, word); return 0; }
+const VS = id => VO[id][0], VEND = id => VO[id][0] + VO[id][1];
+const LINE_IDS = Object.keys(VO).sort((a, b) => VO[a][0] - VO[b][0]);
+const speakerOf = id => id[0] === 'k' ? 'kopi' : 'kenji';
+const T_INTRO = 3.55, T_END = VEND('k9') + 1.7, DURATION = T_END + 3.8;
+
+const MEDIA = {
+  ts_grid:  { type: 'clip', name: 'ts_grid', n: 312, w: 750, h: 900, credit: 'VIDEO: TYPESAFE AI' },
+  ts_chart: { type: 'clip', name: 'ts_chart', n: 228, w: 830, h: 898, credit: 'VIDEO: TYPESAFE AI · THEIR OWN BENCHMARK' },
+  ts_card:  { type: 'img', src: 'img/ts_card.jpg', w: 1200, h: 630, credit: 'IMAGE: TYPESAFE AI', full: true },
+  oa_demo:  { type: 'clip', name: 'oa_demo', n: 420, w: 1280, h: 720, credit: 'VIDEO: OPENAI DEVDAY 2026', full: true },
+  clef:     { type: 'img', src: 'img/clef_latency.jpg', w: 1600, h: 900, credit: 'IMAGE: CLOUDFLARE', full: true },
+};
+// what the camera shows for each line: room shots or full-screen media
+const PLAN = {
+  k1: { room: 'wide', wall: 'title' }, n1: { room: 'two', wall: 'title' }, k2: { room: 'two', wall: 'title' }, n2: { room: 'two', wall: 'title' },
+  k3: { media: 'ts_grid', side: 'jev' }, n3: { media: 'ts_chart', side: 'price' },
+  k4: { room: 'kopi', wall: 'ts' }, n4: { media: 'ts_card', side: 'money' },
+  k5: { room: 'two', wall: 'ts' }, n5: { room: 'wall', wall: 'jevons' },
+  k6: { media: 'oa_demo', side: 'openai' }, n6: { media: 'oa_demo', side: 'openai', cont: true }, n7: { media: 'clef', side: 'open' },
+  k7: { room: 'two', wall: 'vs' }, n8: { room: 'kenji', wall: 'flow', cuts: [['routing', 'wall']] }, k8: { room: 'wall', wall: 'quote' }, n9: { room: 'two', wall: 'title' }, k9: { room: 'wide', wall: 'title' },
+};
+const HEAD = {     // lower-third headline per line (media segments + first appearances)
+  k1: 'KD TECH DAILY ANCHOR', n1: 'HOST, BUILT AT KD',
+  k3: "TypeSafe's Jev: a model that only decides", n3: 'System 1: fast, cheap, no text out',
+  n4: '$40M seed, then reported $10B+ talks', k6: 'OpenAI previews a Decisions API', n6: 'OpenAI previews a Decisions API', n7: 'Amazon + Cloudflare go open source',
+};
+const NAMES = { kopi: ['KOPI', 'ANCHOR'], kenji: ['KENJI NEO', 'CO-ANCHOR'] };
+
+/* ================= BUILD DOM ================= */
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const place = (el, x, y, w, h) => Object.assign(el.style, { left: x + 'px', top: y + 'px', width: w + 'px', height: h + 'px' });
+$('#sky').width = GEO.skyW; $('#sky').height = GEO.skyH;
+place($('#kopiB'), ox, oy, 40 * S, 48 * S); place($('#kopiA'), ox, oy, 40 * S, 48 * S);
+place($('#kenjiB'), ox + KX * S, oy, 40 * S, 48 * S); place($('#kenjiA'), ox + KX * S, oy, 40 * S, 48 * S);
+place($('#desk'), 0, oy + 26 * S, SW, SH - (oy + 26 * S));
+$('#kopiB').innerHTML = KOPI.svg('kb', KOPI_OUTFIT, 'base'); $('#kopiA').innerHTML = KOPI.svg('ka', KOPI_OUTFIT, 'arms');
+$('#kenjiB').innerHTML = KENJI.svg('nb', KENJI_OUTFIT, 'base'); $('#kenjiA').innerHTML = KENJI.svg('na', KENJI_OUTFIT, 'arms');
+$('#desk').innerHTML = ROOM.desk(deskX0, deskX1, deskY1);
+$('#avK').innerHTML = KOPI.svg('ak', KOPI_OUTFIT, 'all'); $('#avN').innerHTML = KENJI.svg('an', KENJI_OUTFIT, 'all');
+$('#floor').style.top = GEO.floorY + 'px';
+GEO.mull.forEach(x => $('#winframe').insertAdjacentHTML('beforeend', `<div class="mull" style="left:${x}px;height:${GEO.floorY}px"></div>`));
+$('#winframe').insertAdjacentHTML('beforeend', `<div class="transom" style="top:${GEO.transom}px"></div>`);
+GEO.lamps.forEach(x => $('#ceiling').insertAdjacentHTML('beforeend', `<div class="lamp" style="left:${x}px"><i></i></div>`));
+// the wall is laid out at a design size and scaled up as one piece, so every card keeps its proportions
+const [wx, wy, ww, wh, wk] = GEO.wall; place($('#wall'), wx, wy, ww, wh); Object.assign($('#wall').style, { transformOrigin: '0 0', transform: `scale(${wk})` });
+const FLAME = `<svg viewBox="0 0 10 12" shape-rendering="crispEdges"><path fill="#ff3d2e" d="M4 0h2v1h1v2h1v2h1v4H8v1H7v1H3v-1H2V9H1V5h1V3h1V2h1z"/><path fill="#ff7a3d" d="M4 3h1v1h1v1h1v3H6v1H4V8H3V5h1z"/><path fill="#ffd84d" d="M4 6h2v3H4z"/></svg>`;
+$('#bug').insertAdjacentHTML('afterbegin', '');
+$('#intro .flame').innerHTML = FLAME; $('#bug img').insertAdjacentHTML('afterend', FLAME);
+// wall states
+const LOGOS = ['logos/typesafe.png', 'logos/openai.svg', 'logos/strands.png', 'logos/cloudflare.svg'];
+$('#wall').innerHTML = `
+  <div class="w wt" data-w="title"><div class="flame">${FLAME}</div><div class="h1">THE DECISION<br><b>MODEL WARS</b></div><div class="logos">${LOGOS.map(l => `<img src="${l}">`).join('')}</div></div>
+  <div class="w" data-w="ts" style="background:#f07fa3"><img class="fill" src="img/ts_card.jpg"></div>
+  <div class="w wj" data-w="jevons"><img src="img/jevons.jpg"><div class="t">WILLIAM STANLEY JEVONS<small>ECONOMIST · 1835-1882</small><i>The Jevons paradox: make it cheaper, and people use more of it.</i></div><div class="cr">PORTRAIT: G. J. STODART (PUBLIC DOMAIN)</div></div>
+  <div class="w wv" data-w="vs"><div class="vs"><span class="a">GOLD<br>RUSH</span><span class="o">OR</span><span class="b">REAL<br>DEAL</span></div></div>
+  <div class="w wf" data-w="flow"><div class="flow"><div class="fbox"><b>STATE</b>context in</div><div class="farr"></div><div class="fbox m"><b>DECIDE</b>model judges</div><div class="farr"></div><div class="fopts"><span>route</span><span>pick tool</span><span>safe?</span></div><div class="farr"></div><div class="fbox c"><b>ACT</b>your code runs</div></div><div class="cap">LET THE MODEL JUDGE · LET YOUR CODE ACT</div></div>
+  <div class="w wq" data-w="quote"><div class="q">"The current batch seems more like ML people wanting to implement a <b>cool architecture</b>..."</div><div class="by">DIOGO ALMEIDA, TYPESAFE CEO · VIA TECHCRUNCH</div></div>
+  ${Object.keys(MEDIA).map(k => `<div class="w" data-w="m:${k}" style="background:#000"><img class="fill" src="${MEDIA[k].type === 'img' ? MEDIA[k].src : `clips/${MEDIA[k].name}/0001.jpg`}"></div>`).join('')}
+  <div class="wbug"><img src="brand/kd_logo.png">HOT TOPIC</div><div class="wlive">LIVE</div>`;
+for (let i = 0; i < Math.ceil(SH / 90); i++) { const d = document.createElement('div'); d.style.top = (i * 90) + 'px'; $('#wipe').appendChild(d); }
+const tickUnit = '+++ THE DECISION MODEL WARS +++ TYPESAFE\'S JEV: $40M SEED, THEN REPORTED $10B+ TALKS +++ OPENAI PREVIEWS A DECISIONS API ON GPT-6 LUNA +++ AMAZON STRANDS DECIDER 2B + CLOUDFLARE CLEF GO OPEN SOURCE +++ LEARN. BUILD. SHIP. ';
+$('#tickTxt').textContent = tickUnit.repeat(6);
+
+/* ================= TIMELINE HELPERS ================= */
+const EVENTS = []; const ev = (t, type, extra = {}) => EVENTS.push(Object.assign({ t: +t.toFixed(3), type }, extra));
+const TYPES = [];
+function typeAt(el, text, t0, cps, opts = {}) { const t1 = t0 + text.length / cps; TYPES.push({ el, text, t0, t1, cps, cursor: false }); if (opts.keys) for (let k = 0; k < text.length; k++) if (text[k] !== ' ') ev(t0 + k / cps, 'key'); return t1; }
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } });
+function wipeAt(b, color) {
+  const strips = $$('#wipe div');
+  tl.set(strips, { background: color, transformOrigin: '0% 50%' }, b - 0.36);
+  tl.fromTo(strips, { scaleX: 0 }, { scaleX: 1, duration: 0.22, ease: 'power2.in', stagger: 0.012, immediateRender: false }, b - 0.36);
+  tl.set(strips, { transformOrigin: '100% 50%' }, b);
+  tl.to(strips, { scaleX: 0, duration: 0.26, ease: 'power2.out', stagger: 0.012 }, b + 0.01);
+  ev(b - 0.36, 'whoosh');
+}
+function flashAt(t) { tl.fromTo('#flash', { opacity: 0.8 }, { opacity: 0, duration: 0.32, ease: 'power2.out', immediateRender: false }, t); ev(t, 'swish'); }
+
+/* ================= SEGMENTS (from the voice timing) ================= */
+// each line owns the time from its own start (minus a lead-in) to the next line's lead-in
+const SEGS = []; {
+  let prev = null;
+  LINE_IDS.forEach((id, i) => {
+    const p = PLAN[id], a = i === 0 ? T_INTRO : VS(id) - 0.18, b = i < LINE_IDS.length - 1 ? VS(LINE_IDS[i + 1]) - 0.18 : DURATION;
+    if (p.cont && prev && prev.media === p.media) { prev.b = b; prev.ids.push(id); return; }
+    if (p.cuts) {   // a line can cut to another shot mid-way, on a word
+      let a0 = a; p.cuts.forEach(([w, shot], k) => { const tc = WT(id, w) - 0.1; SEGS.push(Object.assign({}, p, { a: a0, b: tc, ids: [id], room: k ? p.cuts[k - 1][1] : p.room })); a0 = tc; });
+      prev = Object.assign({}, p, { a: a0, b, ids: [id], room: p.cuts[p.cuts.length - 1][1] }); SEGS.push(prev); return;
+    }
+    prev = Object.assign({ a, b, ids: [id] }, p); SEGS.push(prev);
+  });
+  const last = SEGS[SEGS.length - 1]; last.b = T_END;
+}
+const segAt = t => SEGS.find(s => t >= s.a && t < s.b) || (t < T_INTRO ? null : SEGS[SEGS.length - 1]);
+
+/* camera shots: scale + the world point that lands on a screen point */
+const SHOTS = V916
+  ? { wide: [1, 540, 960, 540, 960], two: [1.14, 540, 1230, 540, 1150], kopi: [1.62, 252, 1180, 430, 1010], kenji: [1.62, 828, 1180, 650, 1010], wall: [1.04, 540, 450, 540, 470] }
+  : { wide: [1, 960, 540, 960, 540], two: [1.2, 960, 640, 960, 660], kopi: [1.72, 640, 590, 760, 540], kenji: [1.72, 1280, 590, 1160, 540], wall: [1.06, 960, 360, 960, 380] };
+function camFor(name, zoom = 1) {
+  const [s0, fx, fy, tx, ty] = SHOTS[name], s = s0 * zoom;
+  let x = tx - fx * s, y = ty - fy * s;
+  x = Math.min(0, Math.max(SW - SW * s, x)); y = Math.min(0, Math.max(SH - SH * s, y));
+  return { scale: s, x, y };
+}
+const wallCam = () => { const W = (ww + 24) * wk, H = (wh + 24) * wk, s = Math.min(SW / W, SH / H) * 1.02, cx = wx + W / 2, cy = wy + H / 2; return { scale: s, x: SW / 2 - cx * s, y: SH / 2 - cy * s }; };
+
+/* ================= SCENES ================= */
+// intro: flame + logo slam, then a zoom-out reveal of the newsroom
+(function () {
+  tl.set('#intro', { visibility: 'visible' }, 0); tl.set('#intro', { visibility: 'hidden' }, T_INTRO + 0.02);
+  tl.from('#intro .flame', { autoAlpha: 0, scale: 0.2, y: 60, duration: 0.45, ease: 'back.out(2.4)' }, 0.15); ev(0.15, 'riser');
+  tl.from('#intro .logo', { autoAlpha: 0, scale: 1.5, duration: 0.32, ease: 'back.out(2.2)' }, 0.75); ev(0.78, 'hit');
+  const topic = $('#intro .topic'), txt = topic.textContent; topic.textContent = '';
+  typeAt(topic, txt, 1.35, 26, { keys: true });
+  tl.from('#intro .with', { autoAlpha: 0, y: 20, duration: 0.4 }, 2.4);
+  tl.to('#intro', { scale: 1.25, autoAlpha: 0, duration: 0.4, ease: 'power2.in' }, T_INTRO - 0.4); ev(T_INTRO - 0.4, 'whoosh');
+  tl.set(['#bug', '#live', '#ticker'], { autoAlpha: 0 }, 0); tl.to(['#bug', '#live', '#ticker'], { autoAlpha: 1, duration: 0.3 }, T_INTRO);
+})();
+
+// room + media windows: back-to-back segments of the same kind are merged, so a hide never lands after the next show
+['room', 'media'].forEach(kind => {
+  const wins = SEGS.filter(s => s[kind]).reduce((acc, s) => { const l = acc[acc.length - 1]; if (l && Math.abs(s.a - l[1]) < 0.05) l[1] = s.b; else acc.push([s.a, s.b]); return acc; }, []);
+  wins.forEach(([a, b]) => { tl.set('#' + kind, { visibility: 'visible' }, a - 0.01); tl.set('#' + kind, { visibility: 'hidden' }, b + 0.01); });
+});
+let lastWasMedia = false;
+SEGS.forEach((sg, i) => {
+  const next = SEGS[i + 1];
+  if (sg.room) {
+    // every camera move is an explicit from -> to, so any frame renders the same no matter where a render worker starts
+    const c0 = camFor(sg.room), c1 = camFor(sg.room, 1.025), push = next && next.media, pushT = 0.42;
+    const ease = (i === 0 || lastWasMedia) ? (i === 0 ? 0.9 : 0.6) : 0, end = push ? sg.b - pushT : sg.b;
+    if (ease) { tl.fromTo('#cam', wallCam(), { ...c0, duration: ease, ease: 'power3.out', immediateRender: false }, sg.a); if (i > 0) ev(sg.a, 'swish'); }
+    else tl.set('#cam', c0, sg.a);
+    tl.fromTo('#cam', c0, { ...c1, duration: Math.max(0.05, end - sg.a - ease), ease: 'none', immediateRender: false }, sg.a + ease);
+    // camera pushes into the video wall before a media segment
+    if (push) { tl.fromTo('#cam', c1, { ...wallCam(), duration: pushT, ease: 'power3.in', immediateRender: false }, sg.b - pushT); ev(sg.b - pushT, 'whoosh'); }
+    lastWasMedia = false;
+  } else {
+    tl.fromTo('#mFrame', { scale: 1.12 }, { scale: 1, duration: 0.5, ease: 'power3.out', immediateRender: false }, sg.a); flashAt(sg.a);
+    if (next && next.media) wipeAt(sg.b, '#ff7a3d');
+    lastWasMedia = true;
+  }
+});
+// wall content: which card is on the big screen
+const wallAt = t => { const s = segAt(t); if (!s) return 'title'; const i = SEGS.indexOf(s), n = SEGS[i + 1];
+  if (s.room && n && n.media && t > s.b - 0.9) return 'm:' + n.media; if (s.media) return 'm:' + s.media; return s.wall; };
+
+/* ---- media segment layouts ---- */
+const SIDE = {
+  jev: () => `<div class="kick">SEP 15 · TYPESAFE AI</div><div class="mtitle">MEET <b>JEV</b>.<br>IT ONLY DECIDES.</div>
+    <div class="wid"><div class="q">Q: "Ship this pull request?"</div><div class="bar yes"><span class="lab">YES</span><span class="tr"><i class="f"></i></span><span class="v">0.97</span></div><div class="bar no"><span class="lab">NO</span><span class="tr"><i class="f"></i></span><span class="v">0.03</span></div></div>`,
+  price: () => `<div class="kick">A "SYSTEM 1" MODEL</div><div class="mtitle">FAST. CHEAP.<br><b>NO TEXT OUT.</b></div>
+    <div class="wid"><div class="note" style="margin:0 0 14px;color:#ffb38a">PRICING · PER TYPESAFE</div><div class="price" id="pr1">$0.042<small>PER 1M INPUT TOKENS</small></div><div class="pfree" id="pr2">OUTPUT: FREE</div><div class="note">chart: TypeSafe's own error-rate benchmark</div></div>`,
+  // full-frame media: no side panel in 16:9, but 9:16 gets a headline block above the clip
+  money: () => V916 ? `<div class="kick">SEP 15 -> SEP 24</div><div class="mtitle">FROM SEED<br>TO <b>$10B TALKS</b></div>` : ``,
+  openai: () => V916 ? `<div class="kick">SEP 29 · OPENAI DEVDAY</div><div class="mtitle">OPENAI'S<br><b>DECISIONS API</b></div>` : ``,
+  open: () => V916 ? `<div class="kick">OCT 1 · OPEN SOURCE</div><div class="mtitle">AMAZON +<br><b>CLOUDFLARE</b> JOIN IN</div>` : ``,
+};
+function mediaLayout(sg) {
+  const m = MEDIA[sg.media], side = (SIDE[sg.side] || (() => ''))();
+  const F = $('#mFrame'), Sd = $('#mSide');
+  if (V916) {
+    if (m.full) { const h = Math.round(1080 * m.h / m.w); place(F, 0, 640, 1080, h); Sd.style.cssText = 'left:50px;right:50px;top:200px'; }
+    else { const w = 820, h = Math.round(w * m.h / m.w); place(F, 130, 650, w, h); Sd.style.cssText = 'left:50px;right:50px;top:170px'; }
+  } else {
+    if (m.full) { place(F, 0, 0, 1920, 1080); Sd.style.cssText = 'display:none'; }
+    else { const h = 860, w = Math.round(h * m.w / m.h); place(F, 1840 - w, 120, w, h); Sd.style.cssText = `left:110px;top:190px;width:${1840 - w - 200}px`; }
+  }
+  F.className = m.full && sg.media === 'clef' ? 'contain' : '';
+  return { side, m };
+}
+// per-segment overlay markup + motion, timed to words
+const MOMENTS = {
+  ts_grid(a, b) {
+    const yes = $('#mSide .yes .f'), no = $('#mSide .no .f');
+    tl.from('#mSide .wid', { autoAlpha: 0, y: 30, duration: 0.4 }, WT('k3', 'you') - 0.2); ev(WT('k3', 'you') - 0.2, 'pop');
+    tl.fromTo(yes, { width: '0%' }, { width: '97%', duration: 0.7, ease: 'power2.out' }, WT('k3', 'picks')); tl.fromTo(no, { width: '0%' }, { width: '3%', duration: 0.7 }, WT('k3', 'picks'));
+    ev(WT('k3', 'picks'), 'ok');
+    stk('NO ESSAYS', '#4ade80', WT('k3', 'no'), V916 ? [700, 1520] : [1500, 860], 6);
+  },
+  ts_chart(a, b) {
+    tl.from('#pr1', { autoAlpha: 0, scale: 0.6, duration: 0.35, ease: 'back.out(2)' }, WT('n3', 'four') - 0.1); ev(WT('n3', 'four') - 0.1, 'coin');
+    tl.from('#pr2', { autoAlpha: 0, scale: 2.2, rotation: -10, duration: 0.3, ease: 'power4.in' }, WT('n3', 'free')); ev(WT('n3', 'free') + 0.25, 'stamp');
+  },
+  ts_card(a, b) {
+    const L = $('#mLay');
+    L.insertAdjacentHTML('beforeend', `<div class="chip" id="c40" style="${V916 ? 'left:60px;top:1060px' : 'left:120px;top:640px'};background:#16a34a">$40M SEED · SEP 15</div>
+      <div class="big" id="c10" style="${V916 ? 'left:60px;top:1130px;font-size:120px' : 'left:120px;top:700px;font-size:150px'}">$<span class="cv">0.2</span>B</div>
+      <div class="chip" id="cRep" style="${V916 ? 'left:60px;top:1290px' : 'left:120px;top:880px'};background:#d7263d">$10B+ TALKS · SEP 24 · REPORTED</div>`);
+    tl.set(['#c40', '#c10', '#cRep'], { autoAlpha: 0 }, 0);
+    tl.fromTo('#c40', { autoAlpha: 0, x: -40 }, { autoAlpha: 1, x: 0, duration: 0.3, immediateRender: false }, WT('n4', 'forty') - 0.15); ev(WT('n4', 'forty') - 0.15, 'pop');
+    tl.fromTo('#c10', { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.3, immediateRender: false }, WT('n4', 'nine') - 0.1);
+    const cv = { v: 0.2 }, cvEl = $('#c10 .cv'); tl.fromTo(cv, { v: 0.2 }, { v: 10, duration: 1.1, ease: 'power2.in', immediateRender: false, onUpdate: () => { cvEl.textContent = cv.v < 1 ? cv.v.toFixed(1) : Math.round(cv.v); } }, WT('n4', 'reports'));
+    for (let k = 0; k < 12; k++) ev(WT('n4', 'reports') + k * 0.09, 'blip', { pitch: 3, soft: 1 });
+    tl.fromTo('#cRep', { autoAlpha: 0, scale: 1.6 }, { autoAlpha: 1, scale: 1, duration: 0.25, immediateRender: false }, WT('n4', 'ten') - 0.1); ev(WT('n4', 'ten') - 0.1, 'stamp');
+  },
+  oa_demo(a, b) {
+    stk('NOT SPED UP', '#ff7a3d', WT('n6', 'not'), V916 ? [600, 1150] : [1420, 160], -6);
+  },
+  clef(a, b) {
+    const L = $('#mLayIn'); const k = V916 ? 1080 / 1600 : 1.2;
+    const P = (x, y) => [x * k, y * k];
+    const [jx, jy] = P(1304, 305), [cx, cy] = P(209, 316);
+    L.insertAdjacentHTML('beforeend', `<div class="hl" id="hJ" style="left:${jx - 20 * k}px;top:${jy - 20 * k}px;width:${110 * k}px;height:${40 * k}px;border-color:#ffc940;box-shadow:0 0 24px rgba(255,201,64,.7)"></div>
+      <div class="hlt" id="tJ" style="left:${jx - 120 * k}px;top:${jy - 70 * k}px;background:#ffc940">JEV · 524 MS</div>
+      <div class="hl" id="hC" style="left:${cx - 30 * k}px;top:${cy - 30 * k}px;width:${80 * k}px;height:${60 * k}px"></div>
+      <div class="hlt" id="tC" style="left:${cx - 30 * k}px;top:${cy + 40 * k}px">CLEF-FLASH · 39 MS</div>`);
+    $('#mLay').insertAdjacentHTML('beforeend', `<div class="chip" id="cAws" style="${V916 ? 'left:50px;top:1300px' : 'left:60px;top:104px'};background:#232f3e;display:flex;align-items:center;gap:12px"><img src="logos/strands.png" style="height:30px">AMAZON STRANDS DECIDER 2B · RUNS ON A LAPTOP</div>`);
+    tl.set(['#hJ', '#tJ', '#hC', '#tC', '#cAws'], { autoAlpha: 0 }, 0);
+    const pop = (sel, t, sfx = 'blip') => { tl.fromTo(sel, { autoAlpha: 0, scale: 1.3 }, { autoAlpha: 1, scale: 1, duration: 0.28, ease: 'back.out(2)', immediateRender: false }, t); ev(t, sfx); };
+    pop('#cAws', WT('n7', 'amazon') - 0.1, 'pop'); pop('#hC', WT('n7', 'clef')); pop('#tC', WT('n7', 'clef') + 0.12);
+    pop('#hJ', WT('n7', 'jev')); pop('#tJ', WT('n7', 'jev') + 0.12);
+  },
+};
+function stk(text, color, t, [x, y], rot) {
+  const id = 'stk' + Math.round(t * 100); $('#mLay').insertAdjacentHTML('beforeend', `<div class="stk" id="${id}" style="left:${x}px;top:${y}px;color:${color};border-color:${color}">${text}</div>`);
+  tl.set('#' + id, { autoAlpha: 0 }, 0);
+  tl.fromTo('#' + id, { autoAlpha: 0, scale: 2.4, rotation: rot * 3 }, { autoAlpha: 1, scale: 1, rotation: rot, duration: 0.28, ease: 'power4.in', immediateRender: false }, t); ev(t + 0.26, 'stamp');
+}
+// media content per segment is swapped in procedurally (one shared #media scene)
+const MSEGS = SEGS.filter(s => s.media);
+MSEGS.forEach(sg => { sg.layout = null; });
+let curMedia = null;
+function showMedia(sg) {
+  if (curMedia === sg) return; curMedia = sg;
+  const { side } = mediaLayout(sg);
+  $('#mSide').innerHTML = side; $('#mLay').innerHTML = sg.lay || ''; $('#mLayIn').innerHTML = sg.layIn || '';
+  const m = MEDIA[sg.media]; $('#mLay').insertAdjacentHTML('beforeend', `<div class="mcredit" style="${V916 ? (m.full ? `right:20px;top:${640 + Math.round(1080 * m.h / m.w) + 12}px` : 'right:130px;top:' + (650 + Math.round(820 * m.h / m.w) + 12) + 'px') : 'right:40px;bottom:228px'}">${m.credit}</div>`);
+}
+// build each media segment's overlays once (so the timeline tweens have targets), then stash the markup
+MSEGS.forEach(sg => {
+  curMedia = null; showMedia(sg);
+  const fn = MOMENTS[sg.media]; if (fn) fn(sg.a, sg.b);
+  // side panel entrance
+  if ($('#mSide').innerHTML.trim()) { tl.from($$('#mSide > *'), { autoAlpha: 0, x: -40, duration: 0.4, stagger: 0.08, immediateRender: false }, sg.a + 0.15); }
+  sg.nodes = { side: [...$('#mSide').childNodes], lay: [...$('#mLay').childNodes], layIn: [...$('#mLayIn').childNodes] };
+});
+function mountMedia(sg) {
+  if (curMedia === sg) return; curMedia = sg; mediaLayout(sg);
+  for (const [k, sel] of [['side', '#mSide'], ['lay', '#mLay'], ['layIn', '#mLayIn']]) { const el = $(sel); el.replaceChildren(...sg.nodes[k]); }
+}
+
+/* lower third: who is talking + headline */
+tl.set('#lower', { autoAlpha: 0 }, 0);
+LINE_IDS.forEach((id, i) => {
+  const h = HEAD[id]; if (!h) return;
+  const a = VS(id) - 0.1, nextId = LINE_IDS[i + 1], b = Math.min(VEND(id) + 0.3, nextId ? VS(nextId) - 0.12 : VEND(id) + 0.3);
+  tl.set('#lower', { autoAlpha: 1, visibility: 'visible' }, a);
+  tl.fromTo('#lower', { x: -60, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.3, immediateRender: false }, a);
+  tl.to('#lower', { autoAlpha: 0, duration: 0.2 }, b - 0.2);
+});
+const lowerAt = t => LINE_IDS.find(id => HEAD[id] && t >= VS(id) - 0.1 && t < VEND(id) + 0.35);
+
+// end card
+(function () {
+  tl.set('#endcard', { visibility: 'visible' }, T_END); tl.from('#endcard .logo', { autoAlpha: 0, scale: 1.3, duration: 0.4, ease: 'back.out(2)' }, T_END + 0.1); ev(T_END + 0.1, 'hit');
+  tl.from('#endcard .tag', { autoAlpha: 0, y: 20, duration: 0.4 }, T_END + 0.5); tl.from('#endcard .src', { autoAlpha: 0, duration: 0.5 }, T_END + 0.9);
+  tl.to(['#bug', '#live', '#ticker'], { autoAlpha: 0, duration: 0.3 }, T_END);
+  tl.to('#black', { opacity: 1, duration: 0.6, ease: 'power1.in' }, DURATION - 0.6);
+  flashAt(T_END);
+})();
+tl.set({}, {}, DURATION);
+
+/* ================= ANCHORS ================= */
+const LS = window.LIPSYNC || { fps: 30, codes: {} };
+const codeAt = (who, f) => { const s = LS.codes[who] || '', c = s.charCodeAt(f); return (c >= 48 && c <= 52) ? c - 48 : 0; };
+const talking = (who, t) => { const f = Math.floor(t * FPS + 1e-6); for (let k = -4; k <= 4; k++) if (codeAt(who, f + k) > 0) return true; return false; };
+const MOUTHS = ['closed', 'm1', 'm2', 'm3', 'O'];
+const hash = n => { const x = Math.sin(n * 127.1) * 43758.5453; return x - Math.floor(x); };
+const lineAt = t => LINE_IDS.find(id => t >= VS(id) && t < VEND(id));
+// what each anchor does, in absolute time (anything uncovered: rest, listening to the other)
+const KOPI_ACT = [
+  { a: T_INTRO, b: VS('k1') - 0.05, pose: 'papers', fr: 7, eyes: 'happy' },
+  { a: WT('k1', 'welcome'), b: WT('k1', "i'm") - 0.05, wave: true, eyes: 'happy' },
+  { a: WT('k1', "i'm"), b: VEND('k1'), pose: 'heart', eyes: 'happy' },
+  { a: VS('n1') + 0.3, b: WT('n1', 'models') - 0.05, pose: 'rest', eyes: 'happy', look: 1 },
+  { a: WT('n1', 'models'), b: VEND('n1') + 0.2, pose: 'pen', fr: 3, eyes: 'normal', look: 1 },
+  { a: VS('k2'), b: WT('k2', 'kenji') - 0.05, pose: 'visor', eyes: 'shocked', look: 1 },
+  { a: WT('k2', 'kenji'), b: VEND('k2') + 0.4, pose: 'heart', eyes: 'heart', look: 1 },
+  { a: VEND('k2') + 0.4, b: VEND('n2') + 0.3, pose: 'rest', eyes: 'happy', look: 1 },
+  { a: VS('k4'), b: VEND('k4') + 0.2, pose: 'fist', eyes: 'dollar' },
+  { a: VS('k5'), b: WT('k5', 'that') - 0.05, pose: 'visor', eyes: 'shocked' },
+  { a: WT('k5', 'that'), b: VEND('k5') + 0.3, pose: 'thumb', eyes: 'wink', look: 1 },
+  { a: VS('n5'), b: WT('n5', 'make') - 0.05, pose: 'pen', fr: 3, eyes: 'normal', look: 1 },
+  { a: WT('n5', 'make'), b: VEND('n5') + 0.3, pose: 'rest', eyes: 'happy', look: 1 },
+  { a: VS('k7'), b: VEND('k7') + 0.3, pose: 'tuck', eyes: 'normal', look: 1 },
+  { a: VS('n8') + 0.3, b: WT('n8', 'routing') - 0.05, pose: 'write', fr: 5, eyes: 'down' },
+  { a: WT('n8', 'routing'), b: VEND('n8') + 0.2, pose: 'rest', eyes: 'happy', look: 1 },
+  { a: VS('k8'), b: WT('k8', 'most') - 0.05, pose: 'read', eyes: 'down' },
+  { a: WT('k8', 'most'), b: VEND('k8') + 0.1, pose: 'tablet', fr: 2, eyes: 'normal' },
+  { a: VS('n9'), b: VEND('n9') + 0.2, pose: 'sip', eyes: 'happy', look: 1 },
+  { a: VS('k9'), b: WT('k9', 'see') - 0.05, pose: 'point', eyes: 'star' },
+  { a: WT('k9', 'see'), b: T_END + 1, wave: true, eyes: 'happy' },
+];
+const KENJI_ACT = [
+  { a: T_INTRO, b: VS('n1'), pose: 'type', fr: 6, eyes: 'normal', look: -1 },
+  { a: VS('n1'), b: WT('n1', 'today') - 0.05, pose: 'wave', fr: 6, eyes: 'happy' },
+  { a: WT('n1', 'models'), b: VEND('n1') + 0.2, pose: 'point', eyes: 'normal', brow: 'up', look: -1 },
+  { a: VS('k2') + 0.2, b: WT('k2', 'dream'), pose: 'rest', eyes: 'normal', brow: 'up', look: -1 },
+  { a: WT('k2', 'dream'), b: VEND('k2') + 0.3, pose: 'rest', eyes: 'happy', mouth: 'grin', look: -1 },
+  { a: VS('n2'), b: VEND('n2') + 0.4, pose: 'glasses', eyes: 'happy', look: -1 },
+  { a: VS('k4'), b: VEND('k4') + 0.3, pose: 'rest', eyes: 'normal', brow: 'up', mouth: 'smile', look: -1 },
+  { a: VS('k5'), b: VEND('k5') + 0.3, pose: 'rest', eyes: 'happy', mouth: 'grin', look: -1 },
+  { a: VS('n5'), b: WT('n5', 'jevons') - 0.05, pose: 'glasses', eyes: 'normal', brow: 'up' },
+  { a: WT('n5', 'make'), b: VEND('n5') + 0.2, pose: 'point', eyes: 'normal', look: -1 },
+  { a: VS('k7'), b: VEND('k7') + 0.35, pose: 'rest', eyes: 'normal', brow: 'focus', look: -1 },
+  { a: VS('n8'), b: WT('n8', 'let') - 0.05, pose: 'thumb', eyes: 'wink' },
+  { a: WT('n8', 'routing'), b: WT('n8', 'fast') - 0.05, pose: 'type', fr: 8, eyes: 'normal', brow: 'focus' },
+  { a: WT('n8', 'fast'), b: VEND('n8') + 0.2, pose: 'point', eyes: 'happy', look: -1 },
+  { a: VS('k8'), b: VEND('k8') + 0.1, pose: 'rest', eyes: 'wide', brow: 'up', look: -1 },
+  { a: VS('n9'), b: WT('n9', 'and') - 0.02, pose: 'rest', eyes: 'wink', mouth: 'grin' },
+  { a: VEND('n9') + 0.1, b: WT('k9', 'see') - 0.05, pose: 'sip', eyes: 'happy', look: -1 },
+  { a: WT('k9', 'see'), b: T_END + 1, pose: 'wave', fr: 6, eyes: 'happy' },
+];
+function baseState(who, t, ACT) {
+  const f = Math.floor(t * FPS + 1e-6), code = codeAt(who, f), talk = talking(who, t);
+  const act = ACT.find(s => t >= s.a && t < s.b) || {};
+  const other = who === 'kopi' ? 'kenji' : 'kopi', otherTalks = talking(other, t);
+  let look = act.look; if (look === undefined) look = otherTalks ? (who === 'kopi' ? 1 : -1) : (talk && hash(Math.floor(t / 2.1) + (who === 'kopi' ? 0 : 50)) > 0.78 ? (who === 'kopi' ? 1 : -1) : 0);
+  const bob = talk ? (code >= 2 ? 1 : 0) : (otherTalks ? (Math.floor(t * 1.6 + (who === 'kopi' ? 0 : 0.5)) % 4 === 0 ? 1 : 0) : (Math.floor(t * 1.2) % 2));
+  return { f, code, talk, act, look, bob };
+}
+function kopiState(t) {
+  const { code, talk, act, look, bob } = baseState('kopi', t, KOPI_ACT);
+  let eyes = act.eyes || 'happy';
+  if (['normal', 'happy', 'star', 'dollar', 'shocked'].includes(eyes) && ((t + 0.7) % 3.3) < 0.12) eyes = 'blink';
+  const idle = { happy: 'smile', normal: 'smile', dollar: 'grin', shocked: 'O', star: 'smile', heart: 'grin', wink: 'grin', down: 'closed', worried: 'frown' }[eyes] || 'smile';
+  const mouth = code ? MOUTHS[code] : (act.mouth || idle);
+  // the drone pops over to Kenji for his fun fact, then comes home
+  let drone = null; const d0 = VS('n5') + 0.2, d1 = VEND('n5') + 0.2;
+  if (t > d0 && t < d1 + 0.9) { const k = t < d1 ? Math.min(1, (t - d0) / 0.9) : Math.max(0, 1 - (t - d1) / 0.9), e = k * k * (3 - 2 * k); drone = { x: Math.round(58 * e), y: Math.round(4 * e + Math.sin(t * 3.1)) }; }
+  return { t, mouth, eyes, bob, look, led: (t % 1.6) < 0.1 ? '#1f5c38' : '#4ade80', pose: act.pose || 'rest', frame: act.fr ? Math.floor(t * act.fr) % 2 : 0, wave: act.wave ? 1 + Math.floor(t * 6) % 2 : 0, drone };
+}
+function kenjiState(t) {
+  const { code, talk, act, look, bob } = baseState('kenji', t, KENJI_ACT);
+  let eyes = act.eyes || 'normal';
+  if (['normal', 'happy', 'wide'].includes(eyes) && ((t + 1.9) % 3.7) < 0.12) eyes = 'blink';
+  const mouth = code ? MOUTHS[code] : (act.mouth || (eyes === 'happy' ? 'smile' : 'closed'));
+  return { t, mouth, eyes, brow: act.brow || (talk ? 'up' : 'normal'), look, bob, pose: act.pose || 'rest', frame: act.fr ? Math.floor(t * act.fr) % 2 : 0 };
+}
+function propsFor(st, nt) {
+  const d = $('#desk'), hide = (sel, h) => { const el = d.querySelector(sel); if (el) el.setAttribute('display', h ? 'none' : 'inline'); };
+  hide('.d-mug', st.pose === 'sip'); hide('.d-papers', ['papers', 'read', 'write'].includes(st.pose)); hide('.d-pen', ['pen', 'write'].includes(st.pose)); hide('.d-tablet', st.pose === 'tablet');
+  hide('.d-tea', nt.pose === 'sip');
+  const fr = Math.floor(st.t * 3) % 2, s0 = d.querySelector('.steam0'), s1 = d.querySelector('.steam1');
+  if (s0) { s0.setAttribute('display', fr ? 'none' : 'inline'); s1.setAttribute('display', fr ? 'inline' : 'none'); }
+  const rgb = d.querySelector('.d-rgb'); if (rgb) rgb.setAttribute('fill', ['#4ade80', '#22d3ee', '#818cf8', '#ff4d6d', '#ffd84d'][Math.floor(st.t * 2) % 5]);
+  // the YES / NO buzzers flash on "gold rush, or the real deal?" and YES lights on "real deal"
+  const [yb, nb] = d.querySelectorAll('.d-buzz'); const t = st.t;
+  const ask = t > WT('k7', 'gold') && t < VEND('k7') + 0.4, yes = t > WT('n8', 'real') && t < VEND('n8');
+  if (yb) { yb.setAttribute('fill', yes || (ask && Math.floor(t * 4) % 2) ? '#86efac' : '#15803d'); nb.setAttribute('fill', ask && !(Math.floor(t * 4) % 2) ? '#fca5a5' : '#991b1b'); }
+}
+function updateAnchors(t) {
+  const ks = kopiState(t), ns = kenjiState(t);
+  if ($('#room').style.visibility !== 'hidden') { KOPI.update($('#kopiB'), ks); KOPI.update($('#kopiA'), ks); KENJI.update($('#kenjiB'), ns); KENJI.update($('#kenjiA'), ns); propsFor(ks, ns); }
+  const lid = lowerAt(t);
+  if (lid) {
+    const who = speakerOf(lid);
+    $('#avK').style.display = who === 'kopi' ? 'block' : 'none'; $('#avN').style.display = who === 'kenji' ? 'block' : 'none';
+    if (who === 'kopi') KOPI.update($('#avK'), { ...ks, pose: 'rest', wave: 0, look: 0, drone: { x: -60, y: 0 } }); else KENJI.update($('#avN'), { ...ns, pose: 'rest', look: 0 });
+    $('#lower .nm').innerHTML = `${NAMES[who][0]}<span>${NAMES[who][1]}</span>`; $('#lower .hd').textContent = HEAD[lid];
+  }
+}
+
+/* ================= PROCEDURAL ================= */
+const skyG = $('#sky').getContext('2d');
+const grainTile = (() => { const cv = document.createElement('canvas'); cv.width = cv.height = 240; const x = cv.getContext('2d'); const im = x.createImageData(240, 240); let seed = 1234;
+  for (let p = 0; p < im.data.length; p += 4) { seed = (seed * 16807) % 2147483647; const v = seed % 255; im.data[p] = im.data[p + 1] = im.data[p + 2] = v; im.data[p + 3] = 255; } x.putImageData(im, 0, 0); return `url(${cv.toDataURL()})`; })();
+$('#grain').style.backgroundImage = grainTile;
+const pend = [];
+function setSrc(img, src) { if (img && img.__s !== src) { img.__s = src; img.src = src; pend.push(img.decode().catch(() => { })); } }
+function clipFrame(m, lt) { if (m.type !== 'clip') return m.src; const fi = Math.min(m.n - 1, Math.max(0, Math.floor(lt * FPS + 1e-6))); return `clips/${m.name}/${String(fi + 1).padStart(4, '0')}.jpg`; }
+function procedural(t) {
+  const sg = segAt(t);
+  if (t >= T_INTRO - 0.4 && $('#room').style.visibility !== 'hidden') {
+    ROOM.sky(skyG, GEO.skyW, GEO.skyH, t, GEO.sky);
+    const w = wallAt(t); $$('#wall .w').forEach(el => el.style.opacity = el.dataset.w === w ? 1 : 0);
+    if (w.startsWith('m:')) { const m = MEDIA[w.slice(2)]; setSrc($(`#wall [data-w="${w}"] img`), clipFrame(m, 0)); }
+  }
+  if (sg && sg.media && $('#media').style.visibility !== 'hidden') {
+    mountMedia(sg); const m = MEDIA[sg.media], src = clipFrame(m, t - sg.a);
+    setSrc($('#mFrame img.mi'), src); setSrc($('#mBg img'), src);
+  }
+  updateAnchors(t);
+  $('#tickTxt').style.transform = `translateX(${-((t * 105) % (tickUnit.length * 19.4))}px)`;
+  for (const ty of TYPES) { const n = Math.max(0, Math.min(ty.text.length, Math.floor((t - ty.t0) * ty.cps + 1e-6))); ty.el.textContent = ty.text.slice(0, n); }
+}
+
+/* ================= PUBLIC API ================= */
+const cuts = SEGS.map(s => s.a).filter(a => a > T_INTRO + 1);
+window.__MUSIC = { dur: DURATION, intro: T_INTRO, outro: T_END - 4, cuts };
+window.__DURATION = DURATION; window.__FPS = FPS; window.__EVENTS = EVENTS; window.__W = SW; window.__H = SH;
+window.__seek = t => { pend.length = 0; tl.seek(t, false); procedural(t); return Promise.all(pend.splice(0)); };
+window.__ready = false;
+const imgs = [...document.images].map(im => im.decode ? im.decode().catch(() => { }) : Promise.resolve());
+Promise.all([...imgs, ...['400 20px JBM', '700 20px JBM', '800 20px JBM', '400 20px Pix', '700 20px Pix', '500 20px SG', '700 20px SG', '400 20px Bungee'].map(f => document.fonts.load(f))])
+  .then(() => document.fonts.ready).then(() => window.__seek(0)).then(() => { window.__ready = true; });
+if (location.search.includes('play')) { const st = performance.now(); (function loop() { window.__seek(((performance.now() - st) / 1000) % DURATION); requestAnimationFrame(loop); })(); }
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+{
+ "voices": {
+  "kopi": "af_heart",
+  "kenji": "am_puck"
+ },
+ "base_speed": {
+  "kopi": 1.1,
+  "kenji": 1.1
+ },
+ "lines": [
+  {
+   "id": "k1",
+   "speaker": "kopi",
+   "gap": 3.9,
+   "start": 3.9,
+   "max": 30,
+   "text": "Welcome to KD Hot Topic! I'm Kopi."
+  },
+  {
+   "id": "n1",
+   "speaker": "kenji",
+   "gap": 0.3,
+   "start": 6.49,
+   "max": 30,
+   "text": "And I'm Kenji. Today's hottest fight in AI? Models that refuse to talk."
+  },
+  {
+   "id": "k2",
+   "speaker": "kopi",
+   "gap": 0.35,
+   "start": 10.67,
+   "max": 30,
+   "text": "Wait. A model that doesn't talk? Kenji, that's literally my dream coworker."
+  },
+  {
+   "id": "n2",
+   "speaker": "kenji",
+   "gap": 0.3,
+   "start": 15.1,
+   "max": 30,
+   "text": "Ha! Okay, let me explain."
+  },
+  {
+   "id": "k3",
+   "speaker": "kopi",
+   "gap": 0.7,
+   "start": 17.03,
+   "max": 30,
+   "text": "It started on September fifteenth. A startup called TypeSafe launched Jev. You give it a question and a list of options, and it just picks one, with a probability. No essays."
+  },
+  {
+   "id": "n3",
+   "speaker": "kenji",
+   "gap": 0.35,
+   "start": 27.5,
+   "max": 30,
+   "text": "They call it a system one model: fast, gut-feeling decisions. And it's cheap. About four cents per million tokens in, and the output is free."
+  },
+  {
+   "id": "k4",
+   "speaker": "kopi",
+   "gap": 0.6,
+   "start": 36.05,
+   "max": 30,
+   "text": "Free output? Okay, now I'm listening."
+  },
+  {
+   "id": "n4",
+   "speaker": "kenji",
+   "gap": 0.3,
+   "start": 38.33,
+   "max": 30,
+   "text": "So was everyone else. TypeSafe launched with a forty million dollar seed. Nine days later, reports said it was in talks at a ten billion dollar valuation."
+  },
+  {
+   "id": "k5",
+   "speaker": "kopi",
+   "gap": 0.6,
+   "start": 47.83,
+   "max": 30,
+   "text": "Fifty times in nine days? That's faster than my code reviews."
+  },
+  {
+   "id": "n5",
+   "speaker": "kenji",
+   "gap": 0.3,
+   "start": 51.45,
+   "max": 30,
+   "text": "And fun fact: Jev is named after Jevons, the economist. Make something cheaper, and people use way more of it."
+  },
+  {
+   "id": "k6",
+   "speaker": "kopi",
+   "gap": 0.7,
+   "start": 57.69,
+   "max": 30,
+   "text": "Then the big labs showed up. At DevDay, OpenAI previewed its own Decisions API, running on GPT-6 Luna. The demo answered in a fraction of a second."
+  },
+  {
+   "id": "n6",
+   "speaker": "kenji",
+   "gap": 0.25,
+   "start": 68.05,
+   "max": 30,
+   "text": "Not sped up, apparently. I checked."
+  },
+  {
+   "id": "n7",
+   "speaker": "kenji",
+   "gap": 0.6,
+   "start": 70.14,
+   "max": 30,
+   "text": "And yesterday, the open-source wave. Amazon's Strands Decider runs on a laptop. Cloudflare's Clef-flash answers in thirty-nine milliseconds. Jev takes about five hundred."
+  },
+  {
+   "id": "k7",
+   "speaker": "kopi",
+   "gap": 0.6,
+   "start": 80.83,
+   "max": 30,
+   "text": "So, Kenji. Gold rush, or the real deal?"
+  },
+  {
+   "id": "n8",
+   "speaker": "kenji",
+   "gap": 0.35,
+   "start": 83.52,
+   "max": 30,
+   "text": "For builders? Real deal. Let the model judge, and let your code act. Routing, tool picks, safety checks. Fast, cheap, and way easier to test."
+  },
+  {
+   "id": "k8",
+   "speaker": "kopi",
+   "gap": 0.4,
+   "start": 91.51,
+   "max": 30,
+   "text": "Even TypeSafe's boss says most clones are just people chasing a cool architecture."
+  },
+  {
+   "id": "n9",
+   "speaker": "kenji",
+   "gap": 0.25,
+   "start": 96.29,
+   "max": 30,
+   "text": "Spicy. And that's the hot topic: decision models."
+  },
+  {
+   "id": "k9",
+   "speaker": "kopi",
+   "gap": 0.35,
+   "start": 99.01,
+   "max": 30,
+   "text": "Now go build something decisive. See you next time, Kracked Devs!"
+  }
+ ]
+}

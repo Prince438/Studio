@@ -1,0 +1,170 @@
+{
+ "voices": {
+  "kopi": "af_heart",
+  "kenji": "am_puck"
+ },
+ "clips": [
+  {
+   "id": "k1",
+   "speaker": "kopi",
+   "start": 3.9,
+   "dur": 2.29,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Welcome to KD Hot Topic! I'm Kopi."
+  },
+  {
+   "id": "n1",
+   "speaker": "kenji",
+   "start": 6.49,
+   "dur": 3.83,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "And I'm Kenji. Today's hottest fight in AI? Models that refuse to talk."
+  },
+  {
+   "id": "k2",
+   "speaker": "kopi",
+   "start": 10.67,
+   "dur": 4.13,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Wait. A model that doesn't talk? Kenji, that's literally my dream coworker."
+  },
+  {
+   "id": "n2",
+   "speaker": "kenji",
+   "start": 15.1,
+   "dur": 1.23,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Ha! Okay, let me explain."
+  },
+  {
+   "id": "k3",
+   "speaker": "kopi",
+   "start": 17.03,
+   "dur": 10.12,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "It started on September fifteenth. A startup called TypeSafe launched Jev. You give it a question and a list of options, and it just picks one, with a probability. No essays."
+  },
+  {
+   "id": "n3",
+   "speaker": "kenji",
+   "start": 27.5,
+   "dur": 7.95,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "They call it a system one model: fast, gut-feeling decisions. And it's cheap. About four cents per million tokens in, and the output is free."
+  },
+  {
+   "id": "k4",
+   "speaker": "kopi",
+   "start": 36.05,
+   "dur": 1.98,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Free output? Okay, now I'm listening."
+  },
+  {
+   "id": "n4",
+   "speaker": "kenji",
+   "start": 38.33,
+   "dur": 8.9,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "So was everyone else. TypeSafe launched with a forty million dollar seed. Nine days later, reports said it was in talks at a ten billion dollar valuation."
+  },
+  {
+   "id": "k5",
+   "speaker": "kopi",
+   "start": 47.83,
+   "dur": 3.32,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Fifty times in nine days? That's faster than my code reviews."
+  },
+  {
+   "id": "n5",
+   "speaker": "kenji",
+   "start": 51.45,
+   "dur": 5.54,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "And fun fact: Jev is named after Jevons, the economist. Make something cheaper, and people use way more of it."
+  },
+  {
+   "id": "k6",
+   "speaker": "kopi",
+   "start": 57.69,
+   "dur": 10.11,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Then the big labs showed up. At DevDay, OpenAI previewed its own Decisions API, running on GPT-6 Luna. The demo answered in a fraction of a second."
+  },
+  {
+   "id": "n6",
+   "speaker": "kenji",
+   "start": 68.05,
+   "dur": 1.49,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Not sped up, apparently. I checked."
+  },
+  {
+   "id": "n7",
+   "speaker": "kenji",
+   "start": 70.14,
+   "dur": 10.09,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "And yesterday, the open-source wave. Amazon's Strands Decider runs on a laptop. Cloudflare's Clef-flash answers in thirty-nine milliseconds. Jev takes about five hundred."
+  },
+  {
+   "id": "k7",
+   "speaker": "kopi",
+   "start": 80.83,
+   "dur": 2.34,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "So, Kenji. Gold rush, or the real deal?"
+  },
+  {
+   "id": "n8",
+   "speaker": "kenji",
+   "start": 83.52,
+   "dur": 7.59,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "For builders? Real deal. Let the model judge, and let your code act. Routing, tool picks, safety checks. Fast, cheap, and way easier to test."
+  },
+  {
+   "id": "k8",
+   "speaker": "kopi",
+   "start": 91.51,
+   "dur": 4.53,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Even TypeSafe's boss says most clones are just people chasing a cool architecture."
+  },
+  {
+   "id": "n9",
+   "speaker": "kenji",
+   "start": 96.29,
+   "dur": 2.37,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Spicy. And that's the hot topic: decision models."
+  },
+  {
+   "id": "k9",
+   "speaker": "kopi",
+   "start": 99.01,
+   "dur": 3.46,
+   "speed": 1.1,
+   "sr": 24000,
+   "text": "Now go build something decisive. See you next time, Kracked Devs!"
+  }
+ ]
+}

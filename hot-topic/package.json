@@ -1,0 +1,16 @@
+{
+  "name": "kd-hot-topic",
+  "version": "1.0.0",
+  "description": "KD Hot Topic: one trending tech story, reported by Kopi and Kenji from the KL newsroom",
+  "private": true,
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource/bungee": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/silkscreen": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "gsap": "^3.15.0",
+    "playwright": "^1.63.0",
+    "simple-icons": "^16.33.0"
+  }
+}

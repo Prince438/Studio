@@ -1,0 +1,10 @@
+New show just dropped: Kopi and Kenji, live from KL 🔥
+
+• TypeSafe's Jev (Sep 15) is a "System 1" model: question + options in, a pick with calibrated odds out, no text
+• $0.042 per 1M input tokens, output free. Named after economist William Stanley Jevons
+• $40M seed (DCVC), then reported talks at $10B+ just 9 days later
+• OpenAI previewed its own Decisions API at DevDay, running on GPT-6 Luna
+• Amazon's Strands Decider 2B + Cloudflare's Clef went open source: Clef-flash 39 ms vs Jev ~524 ms
+• Builder takeaway: let the model judge, let your code act
+
+Learn. Build. Ship. #KDHotTopic
