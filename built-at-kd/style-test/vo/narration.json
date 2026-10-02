@@ -1,0 +1,12 @@
+{
+ "voices": {"kenji": "am_puck", "kopi": "af_heart"},
+ "base_speed": {"kenji": 1.1, "kopi": 1.1},
+ "lines": [
+  {"id": "k1", "speaker": "kenji", "start": 4.95, "max": 5.3, "text": "Yo! Kenji Neo here. Welcome to Built at KD, where we show off what the community ships."},
+  {"id": "k2", "speaker": "kenji", "start": 11.35, "max": 4.8, "text": "Every episode, we break down one member's project: the demo, the stack, and the story."},
+  {"id": "p1", "speaker": "kopi", "start": 17.95, "max": 3.3, "text": "Ooh, look at this studio! So fresh. Kenji, you're gonna crush it!"},
+  {"id": "k3", "speaker": "kenji", "start": 21.45, "max": 1.2, "text": "Haha, thanks Kopi!"},
+  {"id": "k4", "speaker": "kenji", "start": 22.95, "max": 3.5, "text": "Five fits. One desk. Zero bugs... probably."},
+  {"id": "k5", "speaker": "kenji", "start": 27.35, "max": 2.0, "text": "Catch you on the next build!"}
+ ]
+}

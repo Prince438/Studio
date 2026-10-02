@@ -1,0 +1,17 @@
+{
+  "rule": "Kopi drops in once per episode, has a look, gives ONE compliment and leaves. Never reuse a compliment: check this list before writing a new one, then add it here.",
+  "used": [
+    {
+      "episode": "EP.00 style test",
+      "date": "2026-09-30",
+      "project": "(the new studio)",
+      "text": "Ooh, look at this studio! So fresh. Kenji, you're gonna crush it!"
+    },
+    {
+      "episode": "EP.01 Arkedia",
+      "date": "2026-09-30",
+      "project": "Arkedia by Judeen",
+      "text": "Hold on, recursion hiding inside a puzzle game? Judeen, that's sneaky smart. Bookmarked!"
+    }
+  ]
+}

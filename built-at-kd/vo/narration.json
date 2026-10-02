@@ -1,0 +1,108 @@
+{
+ "voices": {
+  "kenji": "am_puck",
+  "kopi": "af_heart"
+ },
+ "base_speed": {
+  "kenji": 1.1,
+  "kopi": 1.1
+ },
+ "lines": [
+  {
+   "id": "k1",
+   "speaker": "kenji",
+   "scene": "studioA",
+   "start": 4.55,
+   "max": 6.0,
+   "text": "Yo, Kenji Neo here, welcome to Built at KD! Today's build comes from a builder you should meet."
+  },
+  {
+   "id": "kb",
+   "speaker": "kenji",
+   "scene": "builder",
+   "start": 11.35,
+   "max": 7.5,
+   "text": "Meet Judeen: a Kracked Devs operative, and a legendary builder. His shipped project? Arcadia. Let's dig in!"
+  },
+  {
+   "id": "k2",
+   "speaker": "kenji",
+   "scene": "home",
+   "start": 18.3,
+   "max": 11.2,
+   "text": "Arcadia is a shelf of fourteen classic games: arcade, word, puzzle and strategy. Each one comes with the rules, a worked example, real strategy, and a board to play on right beside it."
+  },
+  {
+   "id": "k3",
+   "speaker": "kenji",
+   "scene": "hanoi",
+   "start": 30.1,
+   "max": 10.0,
+   "text": "Take Tower of Hanoi. One disk at a time, never big on small. Solve it, and you've quietly learned recursion. Our run? Eleven moves. The minimum is seven. We'll take it."
+  },
+  {
+   "id": "k4",
+   "speaker": "kenji",
+   "scene": "ttt",
+   "start": 40.1,
+   "max": 11.2,
+   "text": "Tic-tac-toe puts you up against the computer: easy, medium or hard, and hard never loses. There's even a switch that labels every square win, draw or lose. That's minimax, in plain sight."
+  },
+  {
+   "id": "k5",
+   "speaker": "kenji",
+   "scene": "memory",
+   "start": 51.65,
+   "max": 10.0,
+   "text": "Memory trains your working memory. Eight pairs on the table. The big idea: good players don't have bigger memories, they use structure. We cleared it in twenty-two moves."
+  },
+  {
+   "id": "k6",
+   "speaker": "kenji",
+   "scene": "howto",
+   "start": 61.35,
+   "max": 6.5,
+   "text": "And every game goes deep: how to play, a worked example, strategy, the idea underneath, even common mistakes."
+  },
+  {
+   "id": "p1",
+   "speaker": "kopi",
+   "scene": "cameo",
+   "start": 69.5,
+   "max": 4.9,
+   "text": "Hold on, recursion hiding inside a puzzle game? Judeen, that's sneaky smart. Bookmarked!"
+  },
+  {
+   "id": "k7",
+   "speaker": "kenji",
+   "scene": "cameo",
+   "start": 74.6,
+   "max": 1.3,
+   "text": "Right? Told you!"
+  },
+  {
+   "id": "k8",
+   "speaker": "kenji",
+   "scene": "stack",
+   "start": 76.5,
+   "max": 10.0,
+   "text": "Under the hood, it's built with Astro. No accounts, no ads, no timers you didn't start. Your progress lives in your own browser, and you can wipe it any time."
+  },
+  {
+   "id": "k9",
+   "speaker": "kenji",
+   "scene": "profile",
+   "start": 85.55,
+   "max": 10.0,
+   "text": "Now, a closer look at Judeen's profile: a legendary builder, five hundred fifty-seven contributions, and Arcadia, shipped, approved and live. Go show some love!"
+  },
+  {
+   "id": "k10",
+   "speaker": "kenji",
+   "scene": "outro",
+   "start": 95.8,
+   "max": 5.5,
+   "text": "Go play it at Arcadia dot judeen dot dev. I'm Kenji Neo. Catch you on the next build!"
+  }
+ ]
+}

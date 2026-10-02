@@ -1,0 +1,15 @@
+{
+  "name": "built-at-kd",
+  "version": "1.0.0",
+  "description": "Built at KD: KrackedDevs community project showcase, hosted by Kenji Neo",
+  "private": true,
+  "dependencies": {
+    "@fontsource-variable/archivo": "^5.2.0",
+    "@fontsource/bungee": "^5.2.0",
+    "@fontsource/silkscreen": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "gsap": "^3.15.0",
+    "playwright": "^1.63.0",
+    "simple-icons": "^16.33.0"
+  }
+}

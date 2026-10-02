@@ -1,0 +1,9 @@
+<!doctype html><html><head><base href="../"></head><body style="margin:0;background:#f6f1e7;width:1800px;height:640px;display:flex;padding:10px;box-sizing:border-box">
+<script src="kenji.js"></script>
+<script>
+const O=['overshirt','windbreaker','blackout','denim','techwear'];
+const P=['rest','thumb','wave','sip','type'];
+O.forEach((o,i)=>{const d=document.createElement('div');d.style.cssText='width:356px;height:620px;display:flex;flex-direction:column;align-items:center;color:#3f5222;font:bold 18px monospace';
+d.innerHTML=`<div style="width:300px;height:360px;margin:120px 0 20px">${KENJI.svg('k'+i,o)}</div><div>${i+1}. ${KENJI.OUTFITS[o].name}</div><div style="font-weight:normal;font-size:14px">${o}</div>`;document.body.appendChild(d);
+const s=d.querySelector('svg');s.style.width='300px';s.style.height='360px';KENJI.update(d,{t:0,pose:P[i],eyes:i==1?'wink':'normal',mouth:i==1?'grin':'smile',brow:'normal',frame:0});});
+</script></body></html>
