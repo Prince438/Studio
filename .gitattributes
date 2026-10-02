@@ -1,0 +1,9 @@
+.venv/Lib/site-packages/torch/lib/torch_cpu.dll filter=lfs diff=lfs merge=lfs -text
+built-at-kd/vo/kokoro-v1.0.onnx filter=lfs diff=lfs merge=lfs -text
+hot-topic/out/video_silent.mp4 filter=lfs diff=lfs merge=lfs -text
+hot-topic/out-916/video_silent.mp4 filter=lfs diff=lfs merge=lfs -text
+hot-topic/vo/kokoro-v1.0.onnx filter=lfs diff=lfs merge=lfs -text
+kd-tech-daily/out/video_silent.mp4 filter=lfs diff=lfs merge=lfs -text
+kd-tech-daily/out-916/video_silent.mp4 filter=lfs diff=lfs merge=lfs -text
+kd-tech-daily/vo/kokoro-v1.0.onnx filter=lfs diff=lfs merge=lfs -text
+models/kokoro-v1.0.onnx filter=lfs diff=lfs merge=lfs -text
